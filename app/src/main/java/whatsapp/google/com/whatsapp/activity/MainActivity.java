@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         auth = FirebaseConnection.getFirebaseAuth();
-        auth.createUserWithEmailAndPassword("teste@teste.com", "abc123456").addOnCompleteListener(
+        auth.createUserWithEmailAndPassword("teste2@teste.com", "abc123456").addOnCompleteListener(
                 MainActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {

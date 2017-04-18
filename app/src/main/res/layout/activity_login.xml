@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="whatsapp.google.com.whatsapp.activity.LoginActivity">
+
+    <EditText
+        android:id="@+id/txt_email_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="212dp"
+        android:ems="10"
+        android:hint="e-mail"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/txt_password_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/txt_email_id"
+        android:layout_alignStart="@+id/txt_email_id"
+        android:layout_below="@+id/txt_email_id"
+        android:layout_marginTop="12dp"
+        android:ems="10"
+        android:hint="senha"
+        android:inputType="textPassword" />
+
+    <Button
+        android:id="@+id/btn_logar_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/txt_password_id"
+        android:layout_alignLeft="@+id/txt_password_id"
+        android:layout_alignRight="@+id/txt_password_id"
+        android:layout_alignStart="@+id/txt_password_id"
+        android:layout_below="@+id/txt_password_id"
+        android:layout_marginTop="20dp"
+        android:text="Logar" />
+</RelativeLayout>
