@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="whatsapp.google.com.whatsapp.activity.CadastroActivity">
+
+    <EditText
+        android:id="@+id/txt_nome_cadastro_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="175dp"
+        android:ems="10"
+        android:hint="Nome"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/txt_email_cadastro_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/txt_nome_cadastro_id"
+        android:layout_alignStart="@+id/txt_nome_cadastro_id"
+        android:layout_below="@+id/txt_nome_cadastro_id"
+        android:ems="10"
+        android:hint="e-mail"
+        android:inputType="textEmailAddress" />
+
+    <EditText
+        android:id="@+id/txt_telefone_cadastro_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/txt_email_cadastro_id"
+        android:layout_alignStart="@+id/txt_email_cadastro_id"
+        android:layout_below="@+id/txt_email_cadastro_id"
+        android:ems="10"
+        android:hint="telefone"
+        android:inputType="phone" />
+
+    <Button
+        android:id="@+id/btn_cadastrar_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/txt_telefone_cadastro_id"
+        android:layout_alignLeft="@+id/txt_telefone_cadastro_id"
+        android:layout_alignRight="@+id/txt_telefone_cadastro_id"
+        android:layout_alignStart="@+id/txt_telefone_cadastro_id"
+        android:layout_below="@+id/txt_telefone_cadastro_id"
+        android:layout_marginTop="23dp"
+        android:text="@string/btn_cadastrar" />
+</RelativeLayout>

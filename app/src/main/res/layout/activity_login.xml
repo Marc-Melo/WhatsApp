@@ -4,40 +4,62 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="whatsapp.google.com.whatsapp.activity.LoginActivity">
+    android:background="@drawable/wallpaper_wh">
 
     <EditText
         android:id="@+id/txt_email_id"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="212dp"
         android:ems="10"
         android:hint="e-mail"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/txt_info_cadastro_id"
+        android:layout_alignStart="@+id/txt_info_cadastro_id" />
 
     <EditText
         android:id="@+id/txt_password_id"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/txt_email_id"
-        android:layout_alignStart="@+id/txt_email_id"
-        android:layout_below="@+id/txt_email_id"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="10dp"
         android:ems="10"
         android:hint="senha"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:layout_below="@+id/txt_email_id"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:id="@+id/btn_logar_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/txt_password_id"
-        android:layout_alignLeft="@+id/txt_password_id"
-        android:layout_alignRight="@+id/txt_password_id"
-        android:layout_alignStart="@+id/txt_password_id"
+        android:layout_marginTop="23dp"
+        android:text="@string/btn_logar"
         android:layout_below="@+id/txt_password_id"
-        android:layout_marginTop="20dp"
-        android:text="Logar" />
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/txt_info_cadastro_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/btn_logar_id"
+        android:layout_marginLeft="46dp"
+        android:layout_marginStart="46dp"
+        android:layout_marginTop="18dp"
+        android:text="@string/link_new_user" />
+
+    <TextView
+        android:id="@+id/txt_cadastre_aqui_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/txt_info_cadastro_id"
+        android:layout_alignBottom="@+id/txt_info_cadastro_id"
+        android:layout_marginLeft="13dp"
+        android:layout_marginStart="13dp"
+        android:layout_toEndOf="@+id/txt_info_cadastro_id"
+        android:layout_toRightOf="@+id/txt_info_cadastro_id"
+        android:text="@string/cadastre_aqui" />
+
 </RelativeLayout>
