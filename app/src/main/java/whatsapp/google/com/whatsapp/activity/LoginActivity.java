@@ -31,6 +31,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        verificarUsuarioLogado();
+
         firebaseAuth = FirebaseConnection.getFirebaseAuth();
 
         novoCadastro = (TextView)findViewById(R.id.txt_cadastre_aqui_id);
@@ -49,6 +51,25 @@ public class LoginActivity extends AppCompatActivity {
         botaoLogar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
+
+                firebaseAuth.signInWithEmailAndPassword(email.getText().toString(), senha.getText().toString())
+                        .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+
+                                }
+                                else{
+
+                                }
+                            }
+                        });
+
+
+
+                /*
                 firebaseAuth.createUserWithEmailAndPassword(email.getText().toString(), senha.getText().toString())
                         .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
@@ -65,8 +86,21 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         }
                 );
+                */
             }
         });
 
+    }
+
+    private void abrirTelaPrincipal(){
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
+    }
+
+    private void verificarUsuarioLogado(){
+        firebaseAuth = FirebaseConnection.getFirebaseAuth();
+        if (firebaseAuth.getCurrentUser() != null){
+            abrirTelaPrincipal();
+        }
     }
 }

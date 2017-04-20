@@ -1,22 +1,44 @@
 package whatsapp.google.com.whatsapp.model;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Exclude;
+
+import whatsapp.google.com.whatsapp.config.FirebaseConnection;
+
 /**
  * Created by marcilio.s.melo on 19/04/2017.
  */
 
 public class Usuario {
 
+    private String idUsuario;
     private String nomeUsuario;
     private String emailUsuario;
     private String telefoneUsuario;
     private String senhaUsuario;
 
-    public Usuario(String nomeUsuario, String emailUsuario, String telefoneUsuario, String senhaUsuario) {
-        this.nomeUsuario = nomeUsuario;
-        this.emailUsuario = emailUsuario;
-        this.telefoneUsuario = telefoneUsuario;
-        this.senhaUsuario = senhaUsuario;
+    public Usuario(){
+
     }
+
+    public Usuario(String nomeUsuario, String emailUsuario, String telefoneUsuario, String senhaUsuario) {
+        this.setNomeUsuario(nomeUsuario);
+        this.setEmailUsuario(emailUsuario);
+        this.setTelefoneUsuario(telefoneUsuario);
+        this.setSenhaUsuario(senhaUsuario);
+    }
+
+    public void salvar(){
+
+        DatabaseReference referenciaFirebase = FirebaseConnection.getFirebaseReference();
+        referenciaFirebase.child("usuarios").child( getId() ).setValue( this );
+
+    }
+
+    @Exclude
+    public String getId() { return idUsuario; }
+
+    public void setId(String id) { this.idUsuario = id; }
 
     public String getNomeUsuario() {
         return nomeUsuario;
@@ -38,10 +60,9 @@ public class Usuario {
         return telefoneUsuario;
     }
 
-    public void setTelefoneUsuario(String telefoneUsuario) {
-        this.telefoneUsuario = telefoneUsuario;
-    }
+    public void setTelefoneUsuario(String telefoneUsuario) { this.telefoneUsuario = telefoneUsuario; }
 
+    @Exclude
     public String getSenhaUsuario() {
         return senhaUsuario;
     }

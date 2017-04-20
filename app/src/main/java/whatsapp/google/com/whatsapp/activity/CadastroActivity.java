@@ -1,5 +1,6 @@
 package whatsapp.google.com.whatsapp.activity;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 
 import whatsapp.google.com.whatsapp.R;
@@ -31,7 +33,6 @@ public class CadastroActivity extends AppCompatActivity {
     private Button botaoCadastrar;
 
     private FirebaseAuth firebaseAuth;
-    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,30 +55,35 @@ public class CadastroActivity extends AppCompatActivity {
 
     public void realizarProcessoCadastro(){
 
-        firebaseAuth = FirebaseConnection.getFirebaseAuth();
+        usuario = new Usuario();
+        usuario.setNomeUsuario(nomeUsuario.getText().toString());
+        usuario.setEmailUsuario(emailUsuario.getText().toString());
+        usuario.setTelefoneUsuario(telefoneUsuario.getText().toString());
+        usuario.setSenhaUsuario(senhaUsuario.getText().toString());
 
         /*
-        firebaseAuth.signInWithEmailAndPassword(emailUsuario.getText().toString(), senhaUsuario.getText().toString())
-                .addOnCompleteListener(CadastroActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
+        usuario = new Usuario(
+                nomeUsuario.getText().toString(),
+                emailUsuario.getText().toString(),
+                telefoneUsuario.getText().toString(),
+                senhaUsuario.getText().toString());
+                */
 
-                        }else {
+        firebaseAuth = FirebaseConnection.getFirebaseAuth();
 
-                        }
-                    }
-                });b
-*/
-
-        firebaseAuth.createUserWithEmailAndPassword(emailUsuario.getText().toString(), senhaUsuario.getText().toString())
+        firebaseAuth.createUserWithEmailAndPassword(usuario.getEmailUsuario(), usuario.getSenhaUsuario())
                 .addOnCompleteListener(CadastroActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            realizarCadastro();
-                        }else{
+                            Toast.makeText(CadastroActivity.this, "Sucesso ao cadastrar usuário.", Toast.LENGTH_SHORT).show();
+                            FirebaseUser usuarioFirebase = task.getResult().getUser();
+                            usuario.setId( usuarioFirebase.getUid() );
+                            usuario.salvar();
 
+                            firebaseAuth.signOut();
+                            finish();
+                        }else{
                             StringBuilder erroExcecao = new StringBuilder("Erro: ");
 
                             try{
@@ -101,19 +107,5 @@ public class CadastroActivity extends AppCompatActivity {
                         }
                     }
                 });
-    }
-
-    public void realizarCadastro(){
-        databaseReference = FirebaseConnection.getFirebaseReference();
-
-        usuario = new Usuario(
-                nomeUsuario.getText().toString(),
-                emailUsuario.getText().toString(),
-                telefoneUsuario.getText().toString(),
-                senhaUsuario.getText().toString());
-
-        databaseReference.child("Usuario").setValue(usuario);
-        Toast.makeText(this, "Usuário Cadastrado.", Toast.LENGTH_SHORT).show();
-
     }
 }
