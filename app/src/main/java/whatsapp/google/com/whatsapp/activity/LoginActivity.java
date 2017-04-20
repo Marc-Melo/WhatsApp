@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import whatsapp.google.com.whatsapp.R;
 import whatsapp.google.com.whatsapp.config.FirebaseConnection;
+import whatsapp.google.com.whatsapp.model.Usuario;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -23,6 +24,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextView email;
     private TextView senha;
     private Button botaoLogar;
+    private Usuario usuario;
 
     private FirebaseAuth firebaseAuth;
 
@@ -52,16 +54,29 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                usuario = new Usuario();
+                usuario.setEmailUsuario(email.getText().toString());
+                usuario.setSenhaUsuario(senha.getText().toString());
 
-
-                firebaseAuth.signInWithEmailAndPassword(email.getText().toString(), senha.getText().toString())
+                firebaseAuth.signInWithEmailAndPassword(usuario.getEmailUsuario(), usuario.getSenhaUsuario())
                         .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
-
+                                    abrirTelaPrincipal();
                                 }
                                 else{
+                                    StringBuilder erroExcecao = new StringBuilder("Erro: ");
+
+                                    try{
+                                        throw task.getException();
+                                    }
+                                    catch (Exception e){
+                                        erroExcecao.append("Falha ao logar usuário.");
+                                        e.printStackTrace();
+                                    }
+
+                                    Toast.makeText(LoginActivity.this, erroExcecao, Toast.LENGTH_SHORT).show();
 
                                 }
                             }

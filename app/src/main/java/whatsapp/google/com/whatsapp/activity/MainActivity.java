@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        /*
         auth = FirebaseConnection.getFirebaseAuth();
         auth.createUserWithEmailAndPassword("teste2@teste.com", "abc123456").addOnCompleteListener(
                 MainActivity.this, new OnCompleteListener<AuthResult>() {
@@ -39,5 +40,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         );
+        */
     }
 }
