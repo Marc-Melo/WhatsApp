@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import whatsapp.google.com.whatsapp.R;
 import whatsapp.google.com.whatsapp.config.FirebaseConnection;
@@ -74,8 +75,8 @@ public class CadastroActivity extends AppCompatActivity {
                             usuario.setId( usuarioFirebase.getUid() );
                             usuario.salvar();
 
-                            firebaseAuth.signOut();
-                            finish();
+                            abrirTelaLogin();
+
                         }else{
                             StringBuilder erroExcecao = new StringBuilder("Erro: ");
 
@@ -100,5 +101,12 @@ public class CadastroActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    private void abrirTelaLogin(){
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(intent);
+        firebaseAuth.signOut();
+        finish();
     }
 }
