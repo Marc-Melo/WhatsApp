@@ -21,13 +21,6 @@ public class Usuario {
 
     }
 
-    public Usuario(String nomeUsuario, String emailUsuario, String telefoneUsuario, String senhaUsuario) {
-        this.setNomeUsuario(nomeUsuario);
-        this.setEmailUsuario(emailUsuario);
-        this.setTelefoneUsuario(telefoneUsuario);
-        this.setSenhaUsuario(senhaUsuario);
-    }
-
     public void salvar(){
 
         DatabaseReference referenciaFirebase = FirebaseConnection.getFirebaseReference();

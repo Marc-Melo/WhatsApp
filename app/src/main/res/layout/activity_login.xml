@@ -8,76 +8,54 @@
 
     <EditText
         android:id="@+id/txt_email_id"
-        android:layout_width="252dp"
+        android:layout_width="match_parent"
         android:layout_height="45dp"
+        android:layout_marginTop="150dp"
         android:ems="10"
         android:hint="E-mail"
         android:inputType="textPersonName"
-        android:layout_marginLeft="1dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginBottom="10dp"
-        android:layout_above="@+id/txt_password_id"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/txt_cadastre_aqui_id"
-        android:layout_alignEnd="@+id/txt_cadastre_aqui_id" />
+        android:textColor="@color/textColorPrimary" />
 
     <EditText
         android:id="@+id/txt_password_id"
-        android:layout_width="252dp"
+        android:layout_width="match_parent"
         android:layout_height="45dp"
+        android:layout_alignLeft="@+id/txt_email_id"
+        android:layout_alignStart="@+id/txt_email_id"
+        android:layout_below="@+id/txt_email_id"
         android:ems="10"
         android:hint="Senha"
         android:inputType="textPassword"
-        android:layout_marginBottom="10dp"
-        android:layout_above="@+id/btn_logar_id"
-        android:layout_alignLeft="@+id/txt_email_id"
-        android:layout_alignStart="@+id/txt_email_id"
-        android:layout_alignRight="@+id/txt_email_id"
-        android:layout_alignEnd="@+id/txt_email_id" />
+        android:textColor="@color/textColorPrimary" />
 
     <Button
         android:id="@+id/btn_logar_id"
-        android:layout_width="252dp"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="@string/btn_logar"
-        android:layout_marginBottom="10dp"
-        android:layout_above="@+id/txt_info_cadastro_id"
         android:layout_alignLeft="@+id/txt_password_id"
         android:layout_alignStart="@+id/txt_password_id"
-        android:layout_alignRight="@+id/txt_password_id"
-        android:layout_alignEnd="@+id/txt_password_id" />
-
-    <TextView
-        android:id="@+id/txt_info_cadastro_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/link_new_user"
-        android:layout_alignBaseline="@+id/txt_cadastre_aqui_id"
-        android:layout_alignBottom="@+id/txt_cadastre_aqui_id"
-        android:layout_alignLeft="@+id/btn_logar_id"
-        android:layout_alignStart="@+id/btn_logar_id" />
+        android:layout_below="@+id/txt_password_id"
+        android:background="@drawable/wallpaper_wh"
+        android:text="@string/btn_logar" />
 
     <TextView
         android:id="@+id/txt_cadastre_aqui_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/cadastre_aqui"
-        android:layout_marginBottom="206dp"
-        android:layout_marginRight="33dp"
-        android:layout_marginEnd="15dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_below="@+id/btn_logar_id"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="22dp"
+        android:text="@string/cadastre_aqui" />
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        app:srcCompat="@drawable/whatsapp_logo"
+        android:layout_width="@dimen/largura_icone"
+        android:layout_height="@dimen/altura_icone"
+        android:layout_alignEnd="@+id/txt_email_id"
         android:layout_alignParentTop="true"
         android:layout_alignRight="@+id/txt_email_id"
-        android:layout_alignEnd="@+id/txt_email_id"
-        android:layout_marginTop="15dp" />
+        android:layout_marginRight="@dimen/afastamento_direita_icone"
+        android:layout_marginTop="@dimen/afastamento_topo_icone"
+        app:srcCompat="@drawable/whatsapp_logo" />
 
 </RelativeLayout>

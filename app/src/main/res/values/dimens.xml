@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="largura_icone">70dp</dimen>
+    <dimen name="altura_icone">70dp</dimen>
+    <dimen name="afastamento_direita_icone">10dp</dimen>
+    <dimen name="afastamento_topo_icone">10dp</dimen>
+</resources>

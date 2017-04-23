@@ -9,68 +9,71 @@
 
     <EditText
         android:id="@+id/txt_nome_cadastro_id"
-        android:layout_width="354dp"
+        android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:layout_marginTop="115dp"
+        android:layout_marginTop="150dp"
         android:ems="10"
         android:hint="Nome"
         android:inputType="textPersonName"
-        android:layout_marginLeft="1dp"
-        android:layout_marginStart="15dp"/>
+        android:textColor="@color/textColorPrimary" />
 
     <EditText
         android:id="@+id/txt_email_cadastro_id"
-        android:layout_width="354dp"
+        android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_alignLeft="@+id/txt_nome_cadastro_id"
         android:layout_alignStart="@+id/txt_nome_cadastro_id"
         android:layout_below="@+id/txt_nome_cadastro_id"
         android:ems="10"
         android:hint="E-mail"
-        android:inputType="textEmailAddress" />
+        android:inputType="textEmailAddress"
+        android:textColor="@color/textColorPrimary" />
 
     <EditText
         android:id="@+id/txt_telefone_cadastro_id"
-        android:layout_width="354dp"
+        android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_alignLeft="@+id/txt_email_cadastro_id"
         android:layout_alignStart="@+id/txt_email_cadastro_id"
         android:layout_below="@+id/txt_email_cadastro_id"
         android:ems="10"
         android:hint="Telefone"
-        android:inputType="phone" />
+        android:inputType="phone"
+        android:textColor="@color/textColorPrimary" />
 
     <EditText
         android:id="@+id/txt_password_usuario_id"
-        android:layout_width="252dp"
+        android:layout_width="match_parent"
         android:layout_height="45dp"
+        android:layout_alignEnd="@+id/txt_telefone_cadastro_id"
+        android:layout_alignLeft="@+id/txt_telefone_cadastro_id"
+        android:layout_alignRight="@+id/txt_telefone_cadastro_id"
+        android:layout_alignStart="@+id/txt_telefone_cadastro_id"
+        android:layout_below="@+id/txt_telefone_cadastro_id"
         android:ems="10"
         android:hint="Senha"
         android:inputType="textPassword"
-        android:layout_below="@+id/txt_telefone_cadastro_id"
-        android:layout_alignLeft="@+id/txt_telefone_cadastro_id"
-        android:layout_alignStart="@+id/txt_telefone_cadastro_id"
-        android:layout_alignRight="@+id/txt_telefone_cadastro_id"
-        android:layout_alignEnd="@+id/txt_telefone_cadastro_id" />
+        android:textColor="@color/textColorPrimary" />
 
     <Button
         android:id="@+id/btn_cadastrar_id"
-        android:layout_width="354dp"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="@string/btn_cadastrar"
-        android:layout_marginTop="30dp"
-        android:layout_below="@+id/txt_password_usuario_id"
         android:layout_alignLeft="@+id/txt_password_usuario_id"
-        android:layout_alignStart="@+id/txt_password_usuario_id" />
+        android:layout_alignStart="@+id/txt_password_usuario_id"
+        android:layout_below="@+id/txt_password_usuario_id"
+        android:background="@drawable/wallpaper_wh"
+        android:text="@string/btn_cadastrar" />
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        app:srcCompat="@drawable/whatsapp_logo"
-        android:layout_marginTop="15dp"
+        android:layout_width="@dimen/altura_icone"
+        android:layout_height="@dimen/largura_icone"
+        android:layout_alignEnd="@+id/txt_nome_cadastro_id"
         android:layout_alignParentTop="true"
         android:layout_alignRight="@+id/txt_nome_cadastro_id"
-        android:layout_alignEnd="@+id/txt_nome_cadastro_id" />
+        android:layout_marginRight="@dimen/afastamento_direita_icone"
+        android:layout_marginTop="@dimen/afastamento_topo_icone"
+        app:srcCompat="@drawable/whatsapp_logo" />
 
 </RelativeLayout>

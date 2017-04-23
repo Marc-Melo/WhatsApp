@@ -1,5 +1,6 @@
 package whatsapp.google.com.whatsapp.activity;
 
+import android.Manifest;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -60,14 +61,6 @@ public class CadastroActivity extends AppCompatActivity {
         usuario.setEmailUsuario(emailUsuario.getText().toString());
         usuario.setTelefoneUsuario(telefoneUsuario.getText().toString());
         usuario.setSenhaUsuario(senhaUsuario.getText().toString());
-
-        /*
-        usuario = new Usuario(
-                nomeUsuario.getText().toString(),
-                emailUsuario.getText().toString(),
-                telefoneUsuario.getText().toString(),
-                senhaUsuario.getText().toString());
-                */
 
         firebaseAuth = FirebaseConnection.getFirebaseAuth();
 
