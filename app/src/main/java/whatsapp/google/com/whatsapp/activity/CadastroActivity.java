@@ -35,17 +35,18 @@ public class CadastroActivity extends AppCompatActivity {
     private Button botaoCadastrar;
 
     private FirebaseAuth firebaseAuth;
+    private FirebaseUser usuarioFirebase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro);
 
-        nomeUsuario = (TextView)findViewById(R.id.txt_nome_cadastro_id);
-        emailUsuario = (TextView)findViewById(R.id.txt_email_cadastro_id);
+        nomeUsuario     = (TextView)findViewById(R.id.txt_nome_cadastro_id);
+        emailUsuario    = (TextView)findViewById(R.id.txt_email_cadastro_id);
         telefoneUsuario = (TextView)findViewById(R.id.txt_telefone_cadastro_id);
-        senhaUsuario = (TextView)findViewById(R.id.txt_password_usuario_id);
-        botaoCadastrar = (Button)findViewById(R.id.btn_cadastrar_id);
+        senhaUsuario    = (TextView)findViewById(R.id.txt_password_usuario_id);
+        botaoCadastrar  = (Button)findViewById(R.id.btn_cadastrar_id);
 
         botaoCadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,10 +59,10 @@ public class CadastroActivity extends AppCompatActivity {
     public void realizarProcessoCadastro(){
 
         usuario = new Usuario();
-        usuario.setNomeUsuario(nomeUsuario.getText().toString());
-        usuario.setEmailUsuario(emailUsuario.getText().toString());
-        usuario.setTelefoneUsuario(telefoneUsuario.getText().toString());
-        usuario.setSenhaUsuario(senhaUsuario.getText().toString());
+        usuario.setNomeUsuario      (nomeUsuario.getText().toString());
+        usuario.setEmailUsuario     (emailUsuario.getText().toString());
+        usuario.setTelefoneUsuario  (telefoneUsuario.getText().toString());
+        usuario.setSenhaUsuario     (senhaUsuario.getText().toString());
 
         firebaseAuth = FirebaseConnection.getFirebaseAuth();
 
@@ -70,12 +71,9 @@ public class CadastroActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(CadastroActivity.this, "Sucesso ao cadastrar usuário.", Toast.LENGTH_SHORT).show();
-                            FirebaseUser usuarioFirebase = task.getResult().getUser();
-                            usuario.setId( usuarioFirebase.getUid() );
-                            usuario.salvar();
-
-                            abrirTelaLogin();
+                            usuarioFirebase = task.getResult().getUser();
+                            CadastrarUsuario();
+                            AbrirTelaLogin();
 
                         }else{
                             StringBuilder erroExcecao = new StringBuilder("Erro: ");
@@ -103,10 +101,15 @@ public class CadastroActivity extends AppCompatActivity {
                 });
     }
 
-    private void abrirTelaLogin(){
-        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+    private void CadastrarUsuario(){
+        usuario.setId( usuarioFirebase.getUid() );
+        usuario.salvar();
+        Toast.makeText(CadastroActivity.this, "Sucesso ao cadastrar usuário.", Toast.LENGTH_SHORT).show();
+    }
+
+    private void AbrirTelaLogin(){
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
-        firebaseAuth.signOut();
         finish();
     }
 }

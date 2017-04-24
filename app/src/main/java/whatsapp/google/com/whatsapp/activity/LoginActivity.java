@@ -43,12 +43,13 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent telaCadastro = new Intent(getApplicationContext(), CadastroActivity.class);
                 startActivity(telaCadastro);
+                finish();
             }
         });
 
-        email = (TextView)findViewById(R.id.txt_email_id);
-        senha = (TextView)findViewById(R.id.txt_password_id);
-        botaoLogar = (Button)findViewById(R.id.btn_logar_id);
+        email       = (TextView)findViewById(R.id.txt_email_id);
+        senha       = (TextView)findViewById(R.id.txt_password_id);
+        botaoLogar  = (Button)findViewById(R.id.btn_logar_id);
 
         botaoLogar.setOnClickListener(new View.OnClickListener() {
             @Override

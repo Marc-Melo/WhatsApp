@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -21,13 +24,18 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth auth;
     private Button btnLogout;
+    private Toolbar toolbar;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btnLogout = (Button)findViewById(R.id.btn_logout_id);
+        btnLogout   = (Button)findViewById(R.id.btn_logout_id);
+        toolbar     = (Toolbar)findViewById(R.id.toolbar_principal);
+
+        toolbar.setTitle("WhatsApp");
+        setSupportActionBar(toolbar);
 
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,5 +47,12 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
     }
 }

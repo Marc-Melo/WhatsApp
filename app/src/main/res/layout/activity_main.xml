@@ -6,6 +6,9 @@
     android:layout_height="match_parent"
     tools:context="whatsapp.google.com.whatsapp.activity.MainActivity">
 
+    <include android:id="@+id/toolbar_principal"
+        layout="@layout/toolbar"/>
+
 
     <Button
         android:id="@+id/btn_logout_id"
