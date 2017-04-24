@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         viewPager           = (ViewPager)findViewById(R.id.view_pager_pagina);
 
         //Tabs ocupando espaço completo
-        //slidingTabLayout.setDistributeEvenly(true);
+        slidingTabLayout.setDistributeEvenly(true);
         slidingTabLayout.setSelectedIndicatorColors(ContextCompat.getColor(this, R.color.colorAccent));
 
         //Configurar Adapter
