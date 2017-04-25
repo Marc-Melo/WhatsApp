@@ -1,7 +1,6 @@
 package whatsapp.google.com.whatsapp.activity;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -10,14 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 
-import com.google.android.gms.common.SignInButton;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 import whatsapp.google.com.whatsapp.R;
@@ -46,8 +38,7 @@ public class MainActivity extends AppCompatActivity {
         slidingTabLayout    = (SlidingTabLayout)findViewById(R.id.slidind_tabs);
         viewPager           = (ViewPager)findViewById(R.id.view_pager_pagina);
 
-        //Tabs ocupando espaço completo
-        //slidingTabLayout.setDistributeEvenly(true);
+        slidingTabLayout.setDistributeEvenly(true);
         slidingTabLayout.setSelectedIndicatorColors(ContextCompat.getColor(this, R.color.colorAccent));
 
         //Configurar Adapter
@@ -55,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(tabAdapter);
 
         slidingTabLayout.setViewPager(viewPager);
+
     }
 
     @Override
