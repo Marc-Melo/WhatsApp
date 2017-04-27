@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         slidingTabLayout    = (SlidingTabLayout)findViewById(R.id.slidind_tabs);
         viewPager           = (ViewPager)findViewById(R.id.view_pager_pagina);
 
+        //Tabs ocupando espaço completo
         slidingTabLayout.setDistributeEvenly(true);
         slidingTabLayout.setSelectedIndicatorColors(ContextCompat.getColor(this, R.color.colorAccent));
 
@@ -46,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(tabAdapter);
 
         slidingTabLayout.setViewPager(viewPager);
-
     }
 
     @Override
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
         switch (item.getItemId()){
             case R.id.item_sair:
-                DeslogarUsuario();
+                deslogarUsuario();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void DeslogarUsuario(){
+    private void deslogarUsuario(){
         auth.signOut();
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(intent);
