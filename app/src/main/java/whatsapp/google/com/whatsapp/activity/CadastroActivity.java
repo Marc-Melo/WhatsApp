@@ -22,6 +22,8 @@ import com.google.firebase.auth.FirebaseUser;
 import whatsapp.google.com.whatsapp.R;
 import whatsapp.google.com.whatsapp.config.FirebaseConnection;
 import whatsapp.google.com.whatsapp.model.Usuario;
+import whatsapp.google.com.whatsapp.util.Base64Custom;
+import whatsapp.google.com.whatsapp.util.Preferencias;
 
 public class CadastroActivity extends AppCompatActivity {
 
@@ -33,7 +35,6 @@ public class CadastroActivity extends AppCompatActivity {
     private Button botaoCadastrar;
 
     private FirebaseAuth firebaseAuth;
-    private FirebaseUser usuarioFirebase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +70,6 @@ public class CadastroActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            usuarioFirebase = task.getResult().getUser();
                             CadastrarUsuario();
                             AbrirTelaLogin();
 
@@ -100,8 +100,13 @@ public class CadastroActivity extends AppCompatActivity {
     }
 
     private void CadastrarUsuario(){
-        usuario.setId( usuarioFirebase.getUid() );
+        String identificadorUsuario = Base64Custom.codificarBase64(usuario.getEmailUsuario());
+        usuario.setId( identificadorUsuario );
         usuario.salvar();
+
+        Preferencias preferencias = new Preferencias(getApplicationContext());
+        preferencias.salvarDados(identificadorUsuario);
+
         Toast.makeText(CadastroActivity.this, "Sucesso ao cadastrar usuário.", Toast.LENGTH_SHORT).show();
     }
 

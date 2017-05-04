@@ -17,6 +17,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import whatsapp.google.com.whatsapp.R;
 import whatsapp.google.com.whatsapp.config.FirebaseConnection;
 import whatsapp.google.com.whatsapp.model.Usuario;
+import whatsapp.google.com.whatsapp.util.Base64Custom;
+import whatsapp.google.com.whatsapp.util.Preferencias;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -64,6 +66,11 @@ public class LoginActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
+
+                                    Preferencias preferencias = new Preferencias(getApplicationContext());
+                                    String identificadorUsuarioLogado = Base64Custom.codificarBase64(usuario.getEmailUsuario());
+                                    preferencias.salvarDados(identificadorUsuarioLogado);
+
                                     abrirTelaPrincipal();
                                 }
                                 else{
