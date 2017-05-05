@@ -23,6 +23,8 @@ import com.google.firebase.database.ValueEventListener;
 import whatsapp.google.com.whatsapp.R;
 import whatsapp.google.com.whatsapp.adapter.TabAdapter;
 import whatsapp.google.com.whatsapp.config.FirebaseConnection;
+import whatsapp.google.com.whatsapp.model.Contato;
+import whatsapp.google.com.whatsapp.model.Usuario;
 import whatsapp.google.com.whatsapp.util.Base64Custom;
 import whatsapp.google.com.whatsapp.util.Preferencias;
 
@@ -95,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                String emailContato = editText.toString();
+                String emailContato = editText.getText().toString();
 
                 if(emailContato.isEmpty()){
                     Toast.makeText(MainActivity.this, "Preencha o e-mail", Toast.LENGTH_SHORT).show();
@@ -109,6 +111,8 @@ public class MainActivity extends AppCompatActivity {
 
                             if(dataSnapshot.getValue() != null){
 
+                                Usuario usuarioContato = dataSnapshot.getValue( Usuario.class );
+
                                 Preferencias preferencias = new Preferencias(getApplicationContext());
                                 String identificadorUsuarioLogado = preferencias.getIdentificador();
 
@@ -117,6 +121,13 @@ public class MainActivity extends AppCompatActivity {
                                         .child("contatos")
                                         .child(identificadorUsuarioLogado)
                                         .child(identificadorContato);
+
+                                Contato contato = new Contato();
+                                contato.setIdentificadorUsuario(identificadorContato);
+                                contato.setNomeUsuario(usuarioContato.getNomeUsuario());
+                                contato.setEmailUsuario(usuarioContato.getEmailUsuario());
+
+                                referenciaFirebase.setValue(contato);
 
                             }else{
                                 Toast.makeText(MainActivity.this, "Usuário não possui cadastro!", Toast.LENGTH_SHORT).show();
