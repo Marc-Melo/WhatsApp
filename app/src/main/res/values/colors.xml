@@ -4,4 +4,5 @@
     <color name="colorPrimary">#0b6156</color>
     <color name="colorAccent">#FFFFFF</color>
     <color name="textColorPrimary">#FFFFFF</color>
+    <color name="divisor">#CCCCCC</color>
 </resources>
