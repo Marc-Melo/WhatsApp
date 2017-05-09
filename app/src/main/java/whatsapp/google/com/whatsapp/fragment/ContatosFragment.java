@@ -103,6 +103,12 @@ public class ContatosFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), ConversaActivity.class);
+
+                Contato contato = contatos.get(position);
+
+                intent.putExtra("nome", contato.getNomeUsuario());
+                intent.putExtra("email", contato.getEmailUsuario());
+
                 startActivity(intent);
             }
         });
