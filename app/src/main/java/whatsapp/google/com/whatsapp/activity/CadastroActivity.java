@@ -105,7 +105,7 @@ public class CadastroActivity extends AppCompatActivity {
         usuario.salvar();
 
         Preferencias preferencias = new Preferencias(getApplicationContext());
-        preferencias.salvarDados(identificadorUsuario);
+        preferencias.salvarDados(identificadorUsuario, usuario.getNomeUsuario());
 
         Toast.makeText(CadastroActivity.this, "Sucesso ao cadastrar usuário.", Toast.LENGTH_SHORT).show();
     }
