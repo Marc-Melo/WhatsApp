@@ -10,6 +10,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/lv_contatos"
         android:divider="@color/divisor"
-        android:dividerHeight="1dp"
+        android:dividerHeight="0dp"
         android:layout_gravity="center_horizontal|top"/>
 </FrameLayout>
