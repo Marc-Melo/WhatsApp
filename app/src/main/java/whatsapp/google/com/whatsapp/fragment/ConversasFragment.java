@@ -72,11 +72,6 @@ public class ConversasFragment extends Fragment {
 
         adapter = new ConversaAdapter(getActivity(), conversas);
 
-        /*
-        adapter = new ArrayAdapter(
-          getActivity(), R.layout.lista_contato, contatos
-        ); */
-
         listView.setAdapter(adapter);
 
         Preferencias preferencias = new Preferencias(getActivity());
@@ -93,7 +88,6 @@ public class ConversasFragment extends Fragment {
                     Conversa conversa = dados.getValue(Conversa.class);
                     conversas.add(conversa);
                 }
-
                 adapter.notifyDataSetChanged();
             }
 

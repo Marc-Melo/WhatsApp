@@ -82,6 +82,7 @@ public class LoginActivity extends AppCompatActivity {
                                             .child("usuarios")
                                             .child(identificadorUsuarioLogado);
 
+
                                     valueEventListener = new ValueEventListener() {
                                         @Override
                                         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -143,7 +144,6 @@ public class LoginActivity extends AppCompatActivity {
                 */
             }
         });
-
     }
 
     private void abrirTelaPrincipal(){

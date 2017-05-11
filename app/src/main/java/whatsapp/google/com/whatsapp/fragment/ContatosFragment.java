@@ -67,11 +67,6 @@ public class ContatosFragment extends Fragment {
 
         adapter = new ContatoAdaptar(getActivity(), contatos);
 
-        /*
-        adapter = new ArrayAdapter(
-          getActivity(), R.layout.lista_contato, contatos
-        ); */
-
         listView.setAdapter(adapter);
 
         Preferencias preferencias = new Preferencias(getActivity());
@@ -88,9 +83,7 @@ public class ContatosFragment extends Fragment {
                     Contato contato = dados.getValue(Contato.class);
                     contatos.add(contato);
                 }
-
                 adapter.notifyDataSetChanged();
-
             }
 
             @Override

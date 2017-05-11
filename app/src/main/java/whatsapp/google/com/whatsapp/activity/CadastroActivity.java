@@ -71,7 +71,7 @@ public class CadastroActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             CadastrarUsuario();
-                            AbrirTelaLogin();
+                            AbrirTelaPrincipal();
 
                         }else{
                             StringBuilder erroExcecao = new StringBuilder("Erro: ");
@@ -110,7 +110,7 @@ public class CadastroActivity extends AppCompatActivity {
         Toast.makeText(CadastroActivity.this, "Sucesso ao cadastrar usuário.", Toast.LENGTH_SHORT).show();
     }
 
-    private void AbrirTelaLogin(){
+    private void AbrirTelaPrincipal(){
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
         finish();

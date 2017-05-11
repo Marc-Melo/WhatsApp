@@ -149,10 +149,8 @@ public class MainActivity extends AppCompatActivity {
         alertDialog.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
             }
         });
-
         alertDialog.create();
         alertDialog.show();
     }

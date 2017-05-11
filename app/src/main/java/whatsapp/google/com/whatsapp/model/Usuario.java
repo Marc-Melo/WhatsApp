@@ -18,14 +18,12 @@ public class Usuario {
     private String senhaUsuario;
 
     public Usuario(){
-
     }
 
     public void salvar(){
 
         DatabaseReference referenciaFirebase = FirebaseConnection.getFirebaseReference();
         referenciaFirebase.child("usuarios").child( getId() ).setValue( this );
-
     }
 
     @Exclude

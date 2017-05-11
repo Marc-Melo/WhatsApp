@@ -73,16 +73,8 @@ public class ConversaActivity extends AppCompatActivity {
         toolbar.setNavigationIcon(R.drawable.ic_action_arrow_left);
         setSupportActionBar(toolbar);
 
-
         mensagens = new ArrayList<>();
         adapter = new MensagemAdapter(ConversaActivity.this, mensagens);
-
-        /*
-        adapter = new ArrayAdapter(
-                ConversaActivity.this,
-                android.R.layout.simple_list_item_1,
-                mensagens
-        );*/
 
         listView.setAdapter(adapter);
 
@@ -101,7 +93,6 @@ public class ConversaActivity extends AppCompatActivity {
                     mensagens.add(mensagem);
                 }
                 adapter.notifyDataSetChanged();
-
             }
 
             @Override
@@ -111,8 +102,6 @@ public class ConversaActivity extends AppCompatActivity {
         };
 
         firebaseReferencia.addValueEventListener(valueEventListenerMensagem);
-
-
 
         btnEnviarMensagem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,18 +143,11 @@ public class ConversaActivity extends AppCompatActivity {
                         if(!retornoConversaDestinatario){
                             Toast.makeText(ConversaActivity.this, "Problema ao salvar conversa. Tente novamente!", Toast.LENGTH_SHORT).show();
                         }
-
                     }
-
-
-
-
                     textoMensagem.setText("");
                 }
-
             }
         });
-
     }
 
     private boolean salvarMensagem(String idRemetente, String idDestinatario, Mensagem mensagem){
