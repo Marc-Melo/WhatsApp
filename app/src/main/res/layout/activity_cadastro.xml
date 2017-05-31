@@ -76,4 +76,22 @@
         android:layout_marginTop="@dimen/afastamento_topo_icone"
         app:srcCompat="@drawable/whatsapp_logo" />
 
+    <Button
+        android:id="@+id/btn_carregar_imagem_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="44dp"
+        android:text="Escolher Imagem" />
+
+    <ImageView
+        android:id="@+id/img_foto_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_cadastrar_id"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="29dp"
+        app:srcCompat="@android:drawable/ic_menu_camera" />
+
 </RelativeLayout>

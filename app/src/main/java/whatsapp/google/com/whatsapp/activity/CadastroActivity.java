@@ -2,6 +2,7 @@ package whatsapp.google.com.whatsapp.activity;
 
 import android.Manifest;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +12,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -18,6 +21,11 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.File;
 
 import whatsapp.google.com.whatsapp.R;
 import whatsapp.google.com.whatsapp.config.FirebaseConnection;
@@ -36,6 +44,10 @@ public class CadastroActivity extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
 
+    private Button mSelectImage;
+    private StorageReference mStorage;
+    private static final int GALLERY_INTENT = 2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +65,46 @@ public class CadastroActivity extends AppCompatActivity {
                 realizarProcessoCadastro();
             }
         });
+
+
+        //Escolhendo Imagem
+        mStorage = FirebaseStorage.getInstance().getReference();
+        mSelectImage = (Button) findViewById(R.id.btn_carregar_imagem_id);
+        mSelectImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                startActivityForResult(intent, GALLERY_INTENT);
+            }
+        });
+        //Fim de Escolhendo Imagem
     }
+
+    //Escolhendo Imagem
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == GALLERY_INTENT && resultCode == RESULT_OK){
+            Uri uri = data.getData();
+
+            StorageReference filePath = mStorage.child("photos").child(uri.getLastPathSegment());
+
+            filePath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Toast.makeText(CadastroActivity.this, "Upload Done.", Toast.LENGTH_SHORT).show();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+
+                }
+            });
+        }
+    }
+    //Fim de Escolhendo Imagem
 
     public void realizarProcessoCadastro(){
 
