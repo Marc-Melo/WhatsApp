@@ -45,8 +45,12 @@ public class CadastroActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
 
     private Button mSelectImage;
-    private StorageReference mStorage;
+    private StorageReference storageReference;
+    private FirebaseStorage firebaseStorage;
     private static final int GALLERY_INTENT = 2;
+
+    private StorageReference imagesRef;
+    private StorageReference spaceRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +72,11 @@ public class CadastroActivity extends AppCompatActivity {
 
 
         //Escolhendo Imagem
-        mStorage = FirebaseStorage.getInstance().getReference();
+        firebaseStorage = firebaseStorage.getInstance();
+        storageReference = firebaseStorage.getReferenceFromUrl("gs://whatsapp-6d8dc.appspot.com");
+        imagesRef = storageReference.child("images");
+        //spaceRef = storageReference.child("images/space.jpg");
+
         mSelectImage = (Button) findViewById(R.id.btn_carregar_imagem_id);
         mSelectImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,17 +97,19 @@ public class CadastroActivity extends AppCompatActivity {
         if(requestCode == GALLERY_INTENT && resultCode == RESULT_OK){
             Uri uri = data.getData();
 
-            StorageReference filePath = mStorage.child("photos").child(uri.getLastPathSegment());
+            StorageReference filePath = storageReference.child("images/"+uri.getLastPathSegment());
 
-            filePath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            UploadTask uploadTask = filePath.putFile(uri);
+
+            uploadTask.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(CadastroActivity.this, "Upload Failed.", Toast.LENGTH_SHORT).show();
+                }
+            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     Toast.makeText(CadastroActivity.this, "Upload Done.", Toast.LENGTH_SHORT).show();
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-
                 }
             });
         }
