@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +49,7 @@ public class CadastroActivity extends AppCompatActivity {
     private StorageReference storageReference;
     private FirebaseStorage firebaseStorage;
     private static final int GALLERY_INTENT = 2;
+    private ProgressBar progressBar;
 
     private StorageReference imagesRef;
     private StorageReference spaceRef;
@@ -78,6 +80,8 @@ public class CadastroActivity extends AppCompatActivity {
         //spaceRef = storageReference.child("images/space.jpg");
 
         mSelectImage = (Button) findViewById(R.id.btn_carregar_imagem_id);
+        progressBar = (ProgressBar)findViewById(R.id.progress_bar);
+        progressBar.setVisibility(View.GONE);
         mSelectImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,16 +103,20 @@ public class CadastroActivity extends AppCompatActivity {
 
             StorageReference filePath = storageReference.child("images/"+uri.getLastPathSegment());
 
+            progressBar.setVisibility(View.VISIBLE);
+
             UploadTask uploadTask = filePath.putFile(uri);
 
             uploadTask.addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
+                    progressBar.setVisibility(View.GONE);
                     Toast.makeText(CadastroActivity.this, "Upload Failed.", Toast.LENGTH_SHORT).show();
                 }
             }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    progressBar.setVisibility(View.GONE);
                     Toast.makeText(CadastroActivity.this, "Upload Done.", Toast.LENGTH_SHORT).show();
                 }
             });
