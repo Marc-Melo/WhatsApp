@@ -10,6 +10,12 @@
     android:background="@drawable/wallpaper_wh"
     tools:context="whatsapp.google.com.whatsapp.activity.CadastroActivity">
 
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:id="@+id/photo_user_id"/>
+
     <android.support.design.widget.TextInputLayout
         android:id="@+id/input_cadastro_nome_id"
         android:layout_width="match_parent"
@@ -90,12 +96,5 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="44dp"
         android:text="Escolher Imagem" />
-
-    <ProgressBar
-        style="@android:style/Widget.ProgressBar"
-        android:id="@+id/progress_bar"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center"/>
 
 </LinearLayout>

@@ -1,13 +1,17 @@
 package whatsapp.google.com.whatsapp.activity;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +31,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import whatsapp.google.com.whatsapp.R;
 import whatsapp.google.com.whatsapp.config.FirebaseConnection;
@@ -49,7 +55,8 @@ public class CadastroActivity extends AppCompatActivity {
     private StorageReference storageReference;
     private FirebaseStorage firebaseStorage;
     private static final int GALLERY_INTENT = 2;
-    private ProgressBar progressBar;
+    private ProgressDialog progressDialog;
+    private ImageView imageView;
 
     private StorageReference imagesRef;
     private StorageReference spaceRef;
@@ -76,12 +83,12 @@ public class CadastroActivity extends AppCompatActivity {
         //Escolhendo Imagem
         firebaseStorage = firebaseStorage.getInstance();
         storageReference = firebaseStorage.getReferenceFromUrl("gs://whatsapp-6d8dc.appspot.com");
+        progressDialog = new ProgressDialog(this);
+        imageView = (ImageView) findViewById(R.id.photo_user_id);
         imagesRef = storageReference.child("images");
         //spaceRef = storageReference.child("images/space.jpg");
 
         mSelectImage = (Button) findViewById(R.id.btn_carregar_imagem_id);
-        progressBar = (ProgressBar)findViewById(R.id.progress_bar);
-        progressBar.setVisibility(View.GONE);
         mSelectImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,22 +108,33 @@ public class CadastroActivity extends AppCompatActivity {
         if(requestCode == GALLERY_INTENT && resultCode == RESULT_OK){
             Uri uri = data.getData();
 
+            try {
+                Bitmap bm = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                imageView.setImageBitmap(bm);
+
+            }catch (FileNotFoundException ex){
+                ex.printStackTrace();
+            }catch (IOException ex){
+                ex.printStackTrace();
+            }
+
             StorageReference filePath = storageReference.child("images/"+uri.getLastPathSegment());
 
-            progressBar.setVisibility(View.VISIBLE);
+            progressDialog.setMessage("Uploading...");
+            progressDialog.show();
 
             UploadTask uploadTask = filePath.putFile(uri);
 
             uploadTask.addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    progressBar.setVisibility(View.GONE);
+                    progressDialog.dismiss();
                     Toast.makeText(CadastroActivity.this, "Upload Failed.", Toast.LENGTH_SHORT).show();
                 }
             }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    progressBar.setVisibility(View.GONE);
+                    progressDialog.dismiss();
                     Toast.makeText(CadastroActivity.this, "Upload Done.", Toast.LENGTH_SHORT).show();
                 }
             });
