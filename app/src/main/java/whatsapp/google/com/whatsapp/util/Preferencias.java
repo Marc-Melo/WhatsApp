@@ -25,8 +25,12 @@ public class Preferencias {
     }
 
     public void salvarDados(String identificadorUsuario, String nomeUsuario){
+        if(identificadorUsuario != null)
         editor.putString(CHAVE_IDENTIFICADOR, identificadorUsuario);
+
+        if(nomeUsuario != null)
         editor.putString(CHAVE_NOME, nomeUsuario);
+
         editor.commit();
     }
 

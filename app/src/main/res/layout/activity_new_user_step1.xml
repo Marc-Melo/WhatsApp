@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:padding="20dp"
+    android:orientation="vertical"
+    android:background="@drawable/wallpaper_wh"
+    tools:context="whatsapp.google.com.whatsapp.activity.NewUserStep1Activity">
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/widget_cadastro_email_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/step1_txt_email_id"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:ems="10"
+            android:hint="E-mail"
+            android:inputType="textEmailAddress"
+            android:textColor="@color/textColorPrimary" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/widget_cadastro_senha_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/step1_txt_password_id"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:ems="10"
+            android:hint="Senha"
+            android:inputType="textPassword"
+            android:textColor="@color/textColorPrimary" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/btn_prosseguir_id"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/wallpaper_wh"
+        android:text="@string/btn_prosseguir" />
+
+</LinearLayout>

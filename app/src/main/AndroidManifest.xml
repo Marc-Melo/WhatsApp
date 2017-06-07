@@ -3,7 +3,7 @@
     package="whatsapp.google.com.whatsapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -18,10 +18,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.MainActivity" />
-        <activity android:name=".activity.CadastroActivity"/>
+        <activity android:name=".activity.CadastroActivity" />
         <activity
             android:name=".activity.ConversaActivity"
-            android:parentActivityName=".activity.MainActivity"></activity>
+            android:parentActivityName=".activity.MainActivity" />
+        <activity android:name=".activity.NewUserStep1Activity" />
+        <activity android:name=".activity.NewUserStep2Activity"></activity>
     </application>
 
 </manifest>
