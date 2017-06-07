@@ -56,7 +56,7 @@ public class NewUserStep2Activity extends AppCompatActivity {
         usuario.setId( identificadorUsuario );
         usuario.salvar();
 
-        preferencias.salvarDados(identificadorUsuario, usuario.getNomeUsuario());
+        preferencias.salvarDados(identificadorUsuario, usuario.getNomeUsuario(), true);
 
         Toast.makeText(NewUserStep2Activity.this, "Sucesso ao cadastrar usuário.", Toast.LENGTH_SHORT).show();
     }

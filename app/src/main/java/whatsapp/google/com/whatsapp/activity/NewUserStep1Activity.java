@@ -37,6 +37,8 @@ public class NewUserStep1Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_user_step1);
 
+        VerificarUsuarioLogado();
+
         emailUsuario = (TextView)findViewById(R.id.step1_txt_email_id);
         senhaUsuario = (TextView)findViewById(R.id.step1_txt_password_id);
         btnProsseguir = (Button)findViewById(R.id.btn_prosseguir_id);
@@ -97,7 +99,7 @@ public class NewUserStep1Activity extends AppCompatActivity {
         usuario.salvar();
 
         Preferencias preferencias = new Preferencias(getApplicationContext());
-        preferencias.salvarDados(identificadorUsuario, null);
+        preferencias.salvarDados(identificadorUsuario, null, null);
 
         Toast.makeText(NewUserStep1Activity.this, "Sucesso ao cadastrar usuário.", Toast.LENGTH_SHORT).show();
     }
@@ -106,6 +108,17 @@ public class NewUserStep1Activity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), NewUserStep2Activity.class);
         startActivity(intent);
         finish();
+    }
+
+    private void VerificarUsuarioLogado(){
+        firebaseAuth = FirebaseConnection.getFirebaseAuth();
+
+        Preferencias preferencias = new Preferencias(NewUserStep1Activity.this);
+        Boolean cadastroFinalizado = preferencias.getCadastroFinalizado();
+
+        if (firebaseAuth.getCurrentUser() != null && cadastroFinalizado){
+            AbrirTelaPrincipal();
+        }
     }
 
 }

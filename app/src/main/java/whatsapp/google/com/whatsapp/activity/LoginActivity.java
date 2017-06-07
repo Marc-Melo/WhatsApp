@@ -55,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
                 //Intent telaCadastro = new Intent(getApplicationContext(), CadastroActivity.class);
                 Intent telaCadastro = new Intent(getApplicationContext(), NewUserStep1Activity.class);
                 startActivity(telaCadastro);
-                finish();
+                //finish();
             }
         });
 
@@ -91,7 +91,7 @@ public class LoginActivity extends AppCompatActivity {
                                             Usuario usuario = dataSnapshot.getValue(Usuario.class);
 
                                             Preferencias preferencias = new Preferencias(getApplicationContext());
-                                            preferencias.salvarDados(identificadorUsuarioLogado, usuario.getNomeUsuario());
+                                            preferencias.salvarDados(identificadorUsuarioLogado, usuario.getNomeUsuario(), true);
 
 
                                         }
@@ -155,7 +155,11 @@ public class LoginActivity extends AppCompatActivity {
 
     private void verificarUsuarioLogado(){
         firebaseAuth = FirebaseConnection.getFirebaseAuth();
-        if (firebaseAuth.getCurrentUser() != null){
+
+        Preferencias preferencias = new Preferencias(LoginActivity.this);
+        Boolean cadastroFinalizado = preferencias.getCadastroFinalizado();
+
+        if (firebaseAuth.getCurrentUser() != null && cadastroFinalizado){
             abrirTelaPrincipal();
         }
     }
