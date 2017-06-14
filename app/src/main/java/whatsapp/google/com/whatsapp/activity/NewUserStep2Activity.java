@@ -1,14 +1,31 @@
 package whatsapp.google.com.whatsapp.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageMetadata;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import whatsapp.google.com.whatsapp.R;
 import whatsapp.google.com.whatsapp.config.FirebaseConnection;
@@ -21,9 +38,14 @@ public class NewUserStep2Activity extends AppCompatActivity {
     private TextView nomeUsuario;
     private TextView foneUsuario;
     private Button btnCadastrar;
+    private ImageView imageView;
     private Usuario usuario;
 
     private FirebaseAuth firebaseAuth;
+    private static final int GALLERY_INTENT = 2;
+    private StorageReference storageReference;
+    private FirebaseStorage firebaseStorage;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,16 +55,71 @@ public class NewUserStep2Activity extends AppCompatActivity {
         nomeUsuario = (TextView)findViewById(R.id.step2_txt_nome_id);
         foneUsuario = (TextView)findViewById(R.id.step2_txt_telefone_id);
         btnCadastrar = (Button)findViewById(R.id.step2_btn_cadastrar_usuario_id);
+        imageView = (ImageView)findViewById(R.id.imagem_usuario_id);
 
         firebaseAuth = FirebaseConnection.getFirebaseAuth();
+        firebaseStorage = firebaseStorage.getInstance();
+        storageReference = firebaseStorage.getReferenceFromUrl("gs://whatsapp-6d8dc.appspot.com");
+        progressDialog = new ProgressDialog(this);
+
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                startActivityForResult(intent, GALLERY_INTENT);
+            }
+        });
 
         btnCadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FinalizarCadastro();
-                AbrirTelaPrincipal();
+                FazerUploadFoto();
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == GALLERY_INTENT && resultCode == RESULT_OK){
+            Uri uri = data.getData();
+
+            try {
+                Bitmap bm = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                imageView.setImageBitmap(bm);
+
+            }catch (FileNotFoundException ex){
+                ex.printStackTrace();
+            }catch (IOException ex){
+                ex.printStackTrace();
+            }
+
+            /*
+            StorageReference filePath = storageReference.child("images/"+uri.getLastPathSegment());
+
+            progressDialog.setMessage("Uploading...");
+            progressDialog.show();
+
+            UploadTask uploadTask = filePath.putFile(uri);
+
+            uploadTask.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    progressDialog.dismiss();
+                    Toast.makeText(CadastroActivity.this, "Upload Failed.", Toast.LENGTH_SHORT).show();
+                }
+            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    progressDialog.dismiss();
+                    Toast.makeText(CadastroActivity.this, "Upload Done.", Toast.LENGTH_SHORT).show();
+                }
+            });
+            */
+        }
     }
 
     private void FinalizarCadastro(){
@@ -59,6 +136,40 @@ public class NewUserStep2Activity extends AppCompatActivity {
         preferencias.salvarDados(identificadorUsuario, usuario.getNomeUsuario(), true);
 
         Toast.makeText(NewUserStep2Activity.this, "Sucesso ao cadastrar usuário.", Toast.LENGTH_SHORT).show();
+    }
+
+    private void FazerUploadFoto(){
+
+        imageView.setDrawingCacheEnabled(true);
+        imageView.buildDrawingCache();
+        Bitmap bitmap = imageView.getDrawingCache();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        imageView.setDrawingCacheEnabled(false);
+        byte[] data = baos.toByteArray();
+
+        Preferencias preferencias = new Preferencias(NewUserStep2Activity.this);
+        StorageReference filePath = storageReference.child("images/"+preferencias.getIdentificador());
+
+        progressDialog.setMessage("Uploading...");
+        progressDialog.show();
+
+        UploadTask uploadTask = filePath.putBytes(data);
+
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                progressDialog.dismiss();
+                Toast.makeText(NewUserStep2Activity.this, "Upload Failed.", Toast.LENGTH_LONG).show();
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                progressDialog.dismiss();
+                Toast.makeText(NewUserStep2Activity.this, "Upload Done.", Toast.LENGTH_LONG).show();
+                AbrirTelaPrincipal();
+            }
+        });
     }
 
     private void AbrirTelaPrincipal(){

@@ -65,7 +65,7 @@ public class NewUserStep1Activity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             CadastrarUsuario();
-                            AbrirTelaPrincipal();
+                            AbrirTelaFinalizarCadastro();
 
                         }else{
                             StringBuilder erroExcecao = new StringBuilder("Erro: ");
@@ -104,10 +104,10 @@ public class NewUserStep1Activity extends AppCompatActivity {
         Toast.makeText(NewUserStep1Activity.this, "Sucesso ao cadastrar usuário.", Toast.LENGTH_SHORT).show();
     }
 
-    private void AbrirTelaPrincipal(){
+    private void AbrirTelaFinalizarCadastro(){
         Intent intent = new Intent(getApplicationContext(), NewUserStep2Activity.class);
         startActivity(intent);
-        finish();
+        //finish();
     }
 
     private void VerificarUsuarioLogado(){
@@ -117,7 +117,7 @@ public class NewUserStep1Activity extends AppCompatActivity {
         Boolean cadastroFinalizado = preferencias.getCadastroFinalizado();
 
         if (firebaseAuth.getCurrentUser() != null && cadastroFinalizado){
-            AbrirTelaPrincipal();
+            AbrirTelaFinalizarCadastro();
         }
     }
 
