@@ -27,6 +27,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import whatsapp.google.com.whatsapp.R;
 import whatsapp.google.com.whatsapp.config.FirebaseConnection;
 import whatsapp.google.com.whatsapp.model.Usuario;
@@ -39,6 +40,7 @@ public class NewUserStep2Activity extends AppCompatActivity {
     private TextView foneUsuario;
     private Button btnCadastrar;
     private ImageView imageView;
+    private CircleImageView circleImageView;
     private Usuario usuario;
 
     private FirebaseAuth firebaseAuth;
@@ -56,6 +58,7 @@ public class NewUserStep2Activity extends AppCompatActivity {
         foneUsuario = (TextView)findViewById(R.id.step2_txt_telefone_id);
         btnCadastrar = (Button)findViewById(R.id.step2_btn_cadastrar_usuario_id);
         imageView = (ImageView)findViewById(R.id.imagem_usuario_id);
+        circleImageView = (CircleImageView)findViewById(R.id.civ_round);
 
         firebaseAuth = FirebaseConnection.getFirebaseAuth();
         firebaseStorage = firebaseStorage.getInstance();
@@ -63,6 +66,15 @@ public class NewUserStep2Activity extends AppCompatActivity {
         progressDialog = new ProgressDialog(this);
 
         imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                startActivityForResult(intent, GALLERY_INTENT);
+            }
+        });
+
+        circleImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_PICK);
@@ -90,6 +102,7 @@ public class NewUserStep2Activity extends AppCompatActivity {
             try {
                 Bitmap bm = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                 imageView.setImageBitmap(bm);
+                circleImageView.setImageBitmap(bm);
 
             }catch (FileNotFoundException ex){
                 ex.printStackTrace();
