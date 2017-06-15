@@ -10,19 +10,12 @@
     android:background="@drawable/wallpaper_wh"
     tools:context="whatsapp.google.com.whatsapp.activity.NewUserStep2Activity">
 
-    <ImageView
-        android:id="@+id/imagem_usuario_id"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_gravity="center"
-        android:src="@drawable/ic_person_pin" />
-
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/civ_round"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_centerInParent="true"
-        android:src="@drawable/ic_person_pin"
+        android:src="@drawable/ic_account_circle"
         app:civ_border_width="2dp"
         app:civ_border_color="@color/divisor" />
 

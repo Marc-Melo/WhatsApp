@@ -39,7 +39,6 @@ public class NewUserStep2Activity extends AppCompatActivity {
     private TextView nomeUsuario;
     private TextView foneUsuario;
     private Button btnCadastrar;
-    private ImageView imageView;
     private CircleImageView circleImageView;
     private Usuario usuario;
 
@@ -57,22 +56,12 @@ public class NewUserStep2Activity extends AppCompatActivity {
         nomeUsuario = (TextView)findViewById(R.id.step2_txt_nome_id);
         foneUsuario = (TextView)findViewById(R.id.step2_txt_telefone_id);
         btnCadastrar = (Button)findViewById(R.id.step2_btn_cadastrar_usuario_id);
-        imageView = (ImageView)findViewById(R.id.imagem_usuario_id);
         circleImageView = (CircleImageView)findViewById(R.id.civ_round);
 
         firebaseAuth = FirebaseConnection.getFirebaseAuth();
         firebaseStorage = firebaseStorage.getInstance();
         storageReference = firebaseStorage.getReferenceFromUrl("gs://whatsapp-6d8dc.appspot.com");
         progressDialog = new ProgressDialog(this);
-
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setType("image/*");
-                startActivityForResult(intent, GALLERY_INTENT);
-            }
-        });
 
         circleImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,7 +90,6 @@ public class NewUserStep2Activity extends AppCompatActivity {
 
             try {
                 Bitmap bm = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                imageView.setImageBitmap(bm);
                 circleImageView.setImageBitmap(bm);
 
             }catch (FileNotFoundException ex){
@@ -109,29 +97,6 @@ public class NewUserStep2Activity extends AppCompatActivity {
             }catch (IOException ex){
                 ex.printStackTrace();
             }
-
-            /*
-            StorageReference filePath = storageReference.child("images/"+uri.getLastPathSegment());
-
-            progressDialog.setMessage("Uploading...");
-            progressDialog.show();
-
-            UploadTask uploadTask = filePath.putFile(uri);
-
-            uploadTask.addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    progressDialog.dismiss();
-                    Toast.makeText(CadastroActivity.this, "Upload Failed.", Toast.LENGTH_SHORT).show();
-                }
-            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    progressDialog.dismiss();
-                    Toast.makeText(CadastroActivity.this, "Upload Done.", Toast.LENGTH_SHORT).show();
-                }
-            });
-            */
         }
     }
 
@@ -153,12 +118,12 @@ public class NewUserStep2Activity extends AppCompatActivity {
 
     private void FazerUploadFoto(){
 
-        imageView.setDrawingCacheEnabled(true);
-        imageView.buildDrawingCache();
-        Bitmap bitmap = imageView.getDrawingCache();
+        circleImageView.setDrawingCacheEnabled(true);
+        circleImageView.buildDrawingCache();
+        Bitmap bitmap = circleImageView.getDrawingCache();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        imageView.setDrawingCacheEnabled(false);
+        circleImageView.setDrawingCacheEnabled(false);
         byte[] data = baos.toByteArray();
 
         Preferencias preferencias = new Preferencias(NewUserStep2Activity.this);
