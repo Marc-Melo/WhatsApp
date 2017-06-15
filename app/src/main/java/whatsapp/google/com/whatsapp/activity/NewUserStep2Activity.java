@@ -47,11 +47,16 @@ public class NewUserStep2Activity extends AppCompatActivity {
     private StorageReference storageReference;
     private FirebaseStorage firebaseStorage;
     private ProgressDialog progressDialog;
+    private String identificadorUsuario;
+    private Preferencias preferencias;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_user_step2);
+
+        preferencias = new Preferencias(getApplicationContext());
+        identificadorUsuario = preferencias.getIdentificador();
 
         nomeUsuario = (TextView)findViewById(R.id.step2_txt_nome_id);
         foneUsuario = (TextView)findViewById(R.id.step2_txt_telefone_id);
@@ -101,8 +106,6 @@ public class NewUserStep2Activity extends AppCompatActivity {
     }
 
     private void FinalizarCadastro(){
-        Preferencias preferencias = new Preferencias(getApplicationContext());
-        String identificadorUsuario = preferencias.getIdentificador();
 
         usuario = new Usuario();
         usuario.setNomeUsuario     (nomeUsuario.getText().toString());
@@ -145,6 +148,10 @@ public class NewUserStep2Activity extends AppCompatActivity {
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 progressDialog.dismiss();
                 Toast.makeText(NewUserStep2Activity.this, "Upload Done.", Toast.LENGTH_LONG).show();
+
+                usuario.setUrlPhotoUser(taskSnapshot.getDownloadUrl().toString());
+                usuario.salvar();
+
                 AbrirTelaPrincipal();
             }
         });
