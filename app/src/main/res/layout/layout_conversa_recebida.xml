@@ -11,6 +11,7 @@
         android:text="Mensagem..."
         android:textColor="@android:color/black"
         android:background="@android:color/white"
+        android:dividerHeight="0dp"
         android:padding="8dp"/>
 
 </RelativeLayout>

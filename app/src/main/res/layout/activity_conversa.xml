@@ -18,7 +18,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/toobar_conversas"
-        android:layout_above="@+id/ll_mensagem"></ListView>
+        android:dividerHeight="-1dp"
+        android:layout_above="@+id/ll_mensagem"/>
 
     <LinearLayout
         android:id="@+id/ll_mensagem"
