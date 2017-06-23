@@ -83,15 +83,16 @@ public class LoginActivity extends AppCompatActivity {
                                             .child("usuarios")
                                             .child(identificadorUsuarioLogado);
 
+                                    salvarPreferencias();
 
                                     valueEventListener = new ValueEventListener() {
                                         @Override
                                         public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                            Usuario usuario = dataSnapshot.getValue(Usuario.class);
+                                            //Usuario usuario = dataSnapshot.getValue(Usuario.class);
 
-                                            Preferencias preferencias = new Preferencias(getApplicationContext());
-                                            preferencias.salvarDados(identificadorUsuarioLogado, usuario.getNomeUsuario(), true);
+                                            //Preferencias preferencias = new Preferencias(getApplicationContext());
+                                            //preferencias.salvarDados(identificadorUsuarioLogado, usuario.getNomeUsuario(), true);
 
 
                                         }
@@ -162,5 +163,10 @@ public class LoginActivity extends AppCompatActivity {
         if (firebaseAuth.getCurrentUser() != null && cadastroFinalizado){
             abrirTelaPrincipal();
         }
+    }
+
+    private void salvarPreferencias(){
+        Preferencias preferencias = new Preferencias(getApplicationContext());
+        preferencias.salvarDados(identificadorUsuarioLogado, usuario.getNomeUsuario(), true);
     }
 }

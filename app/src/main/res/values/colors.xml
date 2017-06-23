@@ -5,4 +5,6 @@
     <color name="colorAccent">#FFFFFF</color>
     <color name="textColorPrimary">#FFFFFF</color>
     <color name="divisor">#CCCCCC</color>
+    <color name="msg_enviada">#e8fbd1</color>
+    <color name="msg_recebida">#FFFFFF</color>
 </resources>
