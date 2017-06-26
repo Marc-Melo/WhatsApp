@@ -3,6 +3,7 @@ package whatsapp.google.com.whatsapp.activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -50,6 +51,8 @@ public class NewUserStep2Activity extends AppCompatActivity {
     private String identificadorUsuario;
     private Preferencias preferencias;
 
+    private ImageView imageView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +87,25 @@ public class NewUserStep2Activity extends AppCompatActivity {
                 FazerUploadFoto();
             }
         });
+
+
+        imageView = (ImageView)findViewById(R.id.photo);
+
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReferenceFromUrl("https://firebasestorage.googleapis.com/v0/b/whatsapp-6d8dc.appspot.com/o/images%2FbWFyY2lsaW9AZW1haWwuY29t?alt=media&token=4fb8067a-a8fb-4e09-89c7-ed46ddb1613d");
+
+        final long ONE_MEGABYTE = 1024 * 1024;
+
+        //download file as a byte array
+        storageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                imageView.setImageBitmap(bitmap);
+                //showToast("Download successful!");
+            }
+        });
+
     }
 
     @Override
