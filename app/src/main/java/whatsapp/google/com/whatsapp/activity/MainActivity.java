@@ -126,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
                                 contato.setIdentificadorUsuario(identificadorContato);
                                 contato.setNomeUsuario(usuarioContato.getNomeUsuario());
                                 contato.setEmailUsuario(usuarioContato.getEmailUsuario());
+                                contato.setUrlPhoto(usuarioContato.getUrlPhotoUser());
 
                                 referenciaFirebase.setValue(contato);
 

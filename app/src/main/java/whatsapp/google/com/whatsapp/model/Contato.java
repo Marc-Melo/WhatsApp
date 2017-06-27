@@ -5,6 +5,7 @@ public class Contato {
     private String identificadorUsuario;
     private String nomeUsuario;
     private String emailUsuario;
+    private String urlPhoto;
 
     public Contato() {
     }
@@ -31,5 +32,14 @@ public class Contato {
 
     public void setEmailUsuario(String emailUsuario) {
         this.emailUsuario = emailUsuario;
+    }
+
+
+    public String getUrlPhoto() {
+        return urlPhoto;
+    }
+
+    public void setUrlPhoto(String urlPhoto) {
+        this.urlPhoto = urlPhoto;
     }
 }
