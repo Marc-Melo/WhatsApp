@@ -1,7 +1,11 @@
 package whatsapp.google.com.whatsapp.activity;
 
+import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -22,6 +26,7 @@ import whatsapp.google.com.whatsapp.R;
 import whatsapp.google.com.whatsapp.config.FirebaseConnection;
 import whatsapp.google.com.whatsapp.model.Usuario;
 import whatsapp.google.com.whatsapp.util.Base64Custom;
+import whatsapp.google.com.whatsapp.util.Permissao;
 import whatsapp.google.com.whatsapp.util.Preferencias;
 
 public class LoginActivity extends AppCompatActivity {
@@ -38,11 +43,18 @@ public class LoginActivity extends AppCompatActivity {
 
     private String identificadorUsuarioLogado;
 
+    private String[] permissoesNecessarias = new String[]{
+            Manifest.permission.INTERNET,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        Permissao.validarPermissoes(1, this, permissoesNecessarias);
 
         verificarUsuarioLogado();
 
@@ -168,5 +180,32 @@ public class LoginActivity extends AppCompatActivity {
     private void salvarPreferencias(){
         Preferencias preferencias = new Preferencias(getApplicationContext());
         preferencias.salvarDados(identificadorUsuarioLogado, usuario.getNomeUsuario(), true);
+    }
+
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResult){
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResult);
+
+        for(int resultado: grantResult){
+            if(resultado == PackageManager.PERMISSION_DENIED){
+                alertarPermissao();
+            }
+        }
+    }
+
+    public void alertarPermissao(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Permissões Negadas");
+        builder.setMessage("Para utilizar esse app, é necessário aceitar as permissões");
+
+        builder.setPositiveButton("CONFIRMAR", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }
