@@ -107,7 +107,6 @@ public class NewUserStep1Activity extends AppCompatActivity {
     private void AbrirTelaFinalizarCadastro(){
         Intent intent = new Intent(getApplicationContext(), NewUserStep2Activity.class);
         startActivity(intent);
-        //finish();
     }
 
     private void VerificarUsuarioLogado(){

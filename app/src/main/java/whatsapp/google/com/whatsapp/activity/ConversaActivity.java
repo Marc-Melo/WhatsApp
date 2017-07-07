@@ -60,7 +60,6 @@ public class ConversaActivity extends AppCompatActivity {
         idUsuarioRemetente = preferencias.getIdentificador();
         nomeUsuarioRemetente = preferencias.getNomeUsuario();
 
-
         bundle = getIntent().getExtras();
 
         if(bundle != null){

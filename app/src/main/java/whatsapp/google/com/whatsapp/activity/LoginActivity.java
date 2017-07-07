@@ -25,6 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 import whatsapp.google.com.whatsapp.R;
 import whatsapp.google.com.whatsapp.config.FirebaseConnection;
 import whatsapp.google.com.whatsapp.model.Usuario;
+import whatsapp.google.com.whatsapp.util.AllStatic;
 import whatsapp.google.com.whatsapp.util.Base64Custom;
 import whatsapp.google.com.whatsapp.util.Permissao;
 import whatsapp.google.com.whatsapp.util.Preferencias;
@@ -43,18 +44,12 @@ public class LoginActivity extends AppCompatActivity {
 
     private String identificadorUsuarioLogado;
 
-    private String[] permissoesNecessarias = new String[]{
-            Manifest.permission.INTERNET,
-            Manifest.permission.READ_EXTERNAL_STORAGE
-    };
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Permissao.validarPermissoes(1, this, permissoesNecessarias);
+        Permissao.validarPermissoes(1, this, AllStatic.PERMISSOES_NECESSARIAS);
 
         verificarUsuarioLogado();
 
@@ -64,10 +59,8 @@ public class LoginActivity extends AppCompatActivity {
         novoCadastro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent telaCadastro = new Intent(getApplicationContext(), CadastroActivity.class);
                 Intent telaCadastro = new Intent(getApplicationContext(), NewUserStep1Activity.class);
                 startActivity(telaCadastro);
-                //finish();
             }
         });
 
@@ -101,12 +94,6 @@ public class LoginActivity extends AppCompatActivity {
                                         @Override
                                         public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                            //Usuario usuario = dataSnapshot.getValue(Usuario.class);
-
-                                            //Preferencias preferencias = new Preferencias(getApplicationContext());
-                                            //preferencias.salvarDados(identificadorUsuarioLogado, usuario.getNomeUsuario(), true);
-
-
                                         }
 
                                         @Override
@@ -136,26 +123,6 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         });
 
-
-
-                /*
-                firebaseAuth.createUserWithEmailAndPassword(email.getText().toString(), senha.getText().toString())
-                        .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(LoginActivity.this, "Usuário autenticado. Direcionar para tela principal.", Toast.LENGTH_SHORT).show();
-                                }else{
-                                    if(firebaseAuth.getCurrentUser() != null){
-                                        Toast.makeText(LoginActivity.this, "Usuário já autenticado. Direcionar pra tela principal", Toast.LENGTH_SHORT).show();
-                                    }else{
-                                        Toast.makeText(LoginActivity.this, "Falha na autenticação", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            }
-                        }
-                );
-                */
             }
         });
     }
