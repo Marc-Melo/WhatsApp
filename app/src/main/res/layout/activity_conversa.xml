@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/wallpaper_wh"
     tools:context="whatsapp.google.com.whatsapp.activity.ConversaActivity">
 
     <include
@@ -19,7 +18,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/toobar_conversas"
         android:dividerHeight="-1dp"
-        android:layout_above="@+id/ll_mensagem"/>
+        android:background="@drawable/wallpaper_wh"
+        android:layout_above="@+id/ll_mensagem"
+        android:paddingBottom="5dp"/>
 
     <LinearLayout
         android:id="@+id/ll_mensagem"

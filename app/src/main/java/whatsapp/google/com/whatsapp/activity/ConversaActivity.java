@@ -92,6 +92,8 @@ public class ConversaActivity extends AppCompatActivity {
                     mensagens.add(mensagem);
                 }
                 adapter.notifyDataSetChanged();
+                listView.setSelection(adapter.getCount() -1);
+
             }
 
             @Override
@@ -145,6 +147,13 @@ public class ConversaActivity extends AppCompatActivity {
                     }
                     textoMensagem.setText("");
                 }
+            }
+        });
+
+        textoMensagem.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus) listView.setSelection(adapter.getCount() -1);
             }
         });
     }

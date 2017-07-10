@@ -25,7 +25,7 @@
         <activity
             android:name=".activity.ConversaActivity"
             android:parentActivityName=".activity.MainActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity android:name=".activity.NewUserStep1Activity"
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.NewUserStep2Activity"
