@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         auth        = FirebaseConnection.getFirebaseAuth();
         toolbar     = (Toolbar)findViewById(R.id.toolbar);
 
-        toolbar.setTitle("WhatsApp");
+        toolbar.setTitle("HelloU");
         setSupportActionBar(toolbar);
 
         //Configurar Adapter
