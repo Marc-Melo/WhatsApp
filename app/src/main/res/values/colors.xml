@@ -8,4 +8,5 @@
     <color name="msg_enviada">#e8fbd1</color>
     <color name="msg_recebida">#FFFFFF</color>
     <color name="cor_fundo_login">#feefd8</color>
+    <color name="cor_fundo_editText">#99f46e45</color>
 </resources>
