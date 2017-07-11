@@ -18,14 +18,14 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/toobar_conversas"
         android:dividerHeight="-1dp"
-        android:background="@drawable/wallpaper_wh"
+        android:background="@color/cor_fundo_login"
         android:layout_above="@+id/ll_mensagem"
         android:paddingBottom="5dp"/>
 
     <LinearLayout
         android:id="@+id/ll_mensagem"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:background="@android:color/background_light"
         android:orientation="horizontal">
@@ -33,19 +33,22 @@
         <EditText
             android:id="@+id/edit_mensagem_conversa"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_weight="1"
             android:hint="Mensagem"
+            android:paddingLeft="10dp"
             android:textColor="@android:color/background_dark"
             android:textColorHint="@android:color/background_dark" />
 
-        <ImageButton
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/img_send_mensagem_conversa"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_gravity="center"
-            android:background="@color/colorPrimaryDark"
-            android:src="@drawable/ic_action_send" />
+            android:paddingRight="10dp"
+            android:src="@mipmap/ic_app"
+            app:civ_border_width="2dp"
+            app:civ_border_color="@color/divisor"/>
 
     </LinearLayout>
 

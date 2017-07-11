@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimaryDark">#0a5048</color>
-    <color name="colorPrimary">#0b6156</color>
+    <color name="colorPrimaryDark">#f46e45</color>
+    <color name="colorPrimary">#f27f46</color>
     <color name="colorAccent">#FFFFFF</color>
     <color name="textColorPrimary">#FFFFFF</color>
     <color name="divisor">#CCCCCC</color>
     <color name="msg_enviada">#e8fbd1</color>
     <color name="msg_recebida">#FFFFFF</color>
+    <color name="cor_fundo_login">#feefd8</color>
 </resources>

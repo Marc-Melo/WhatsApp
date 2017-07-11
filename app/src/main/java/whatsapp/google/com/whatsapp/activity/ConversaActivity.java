@@ -17,6 +17,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import whatsapp.google.com.whatsapp.R;
 import whatsapp.google.com.whatsapp.adapter.MensagemAdapter;
 import whatsapp.google.com.whatsapp.config.FirebaseConnection;
@@ -30,7 +31,7 @@ public class ConversaActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private Bundle bundle;
     private EditText textoMensagem;
-    private ImageButton btnEnviarMensagem;
+    private CircleImageView btnEnviarMensagem;
 
     private String nomeUsuarioDestinatario;
     private String idUsuarioDestinatario;
@@ -53,7 +54,7 @@ public class ConversaActivity extends AppCompatActivity {
 
         toolbar = (Toolbar)findViewById(R.id.toobar_conversas);
         textoMensagem = (EditText)findViewById(R.id.edit_mensagem_conversa);
-        btnEnviarMensagem = (ImageButton)findViewById(R.id.img_send_mensagem_conversa);
+        btnEnviarMensagem = (CircleImageView) findViewById(R.id.img_send_mensagem_conversa);
         listView = (ListView)findViewById(R.id.lv_conversas);
 
         Preferencias preferencias = new Preferencias(ConversaActivity.this);
