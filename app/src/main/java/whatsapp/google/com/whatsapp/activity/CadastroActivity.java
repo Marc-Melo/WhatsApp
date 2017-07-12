@@ -30,10 +30,12 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import whatsapp.google.com.whatsapp.R;
 import whatsapp.google.com.whatsapp.config.FirebaseConnection;
 import whatsapp.google.com.whatsapp.model.Usuario;
@@ -42,6 +44,7 @@ import whatsapp.google.com.whatsapp.util.Preferencias;
 
 public class CadastroActivity extends AppCompatActivity {
 
+    private CircleImageView circleImageView;
     private TextView nomeUsuario;
     private TextView emailUsuario;
     private TextView telefoneUsuario;
@@ -51,26 +54,27 @@ public class CadastroActivity extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
 
-    private Button mSelectImage;
     private StorageReference storageReference;
     private FirebaseStorage firebaseStorage;
     private static final int GALLERY_INTENT = 2;
     private ProgressDialog progressDialog;
-    private ImageView imageView;
-
-    private StorageReference imagesRef;
-    private StorageReference spaceRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro);
 
-        nomeUsuario     = (TextView)findViewById(R.id.txt_nome_cadastro_id);
-        emailUsuario    = (TextView)findViewById(R.id.txt_email_cadastro_id);
-        telefoneUsuario = (TextView)findViewById(R.id.txt_telefone_cadastro_id);
-        senhaUsuario    = (TextView)findViewById(R.id.txt_password_usuario_id);
-        botaoCadastrar  = (Button)findViewById(R.id.btn_cadastrar_id);
+        circleImageView = (CircleImageView)findViewById(R.id.photo_user_id);
+        nomeUsuario = (TextView) findViewById(R.id.nome_user_id);
+        emailUsuario = (TextView) findViewById(R.id.email_user_id);
+        telefoneUsuario = (TextView) findViewById(R.id.telefone_user_id);
+        senhaUsuario = (TextView) findViewById(R.id.senha_user_id);
+        botaoCadastrar = (Button) findViewById(R.id.botao_cadastrar_usuario_id);
+
+        firebaseAuth = FirebaseConnection.getFirebaseAuth();
+        firebaseStorage = firebaseStorage.getInstance();
+        storageReference = firebaseStorage.getReferenceFromUrl("gs://whatsapp-6d8dc.appspot.com");
+        progressDialog = new ProgressDialog(this);
 
         botaoCadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,17 +83,7 @@ public class CadastroActivity extends AppCompatActivity {
             }
         });
 
-
-        //Escolhendo Imagem
-        firebaseStorage = firebaseStorage.getInstance();
-        storageReference = firebaseStorage.getReferenceFromUrl("gs://whatsapp-6d8dc.appspot.com");
-        progressDialog = new ProgressDialog(this);
-        imageView = (ImageView) findViewById(R.id.photo_user_id);
-        imagesRef = storageReference.child("images");
-        //spaceRef = storageReference.child("images/space.jpg");
-
-        mSelectImage = (Button) findViewById(R.id.btn_carregar_imagem_id);
-        mSelectImage.setOnClickListener(new View.OnClickListener() {
+        circleImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_PICK);
@@ -97,10 +91,9 @@ public class CadastroActivity extends AppCompatActivity {
                 startActivityForResult(intent, GALLERY_INTENT);
             }
         });
-        //Fim de Escolhendo Imagem
+
     }
 
-    //Escolhendo Imagem
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -110,37 +103,15 @@ public class CadastroActivity extends AppCompatActivity {
 
             try {
                 Bitmap bm = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                imageView.setImageBitmap(bm);
+                circleImageView.setImageBitmap(bm);
 
             }catch (FileNotFoundException ex){
                 ex.printStackTrace();
             }catch (IOException ex){
                 ex.printStackTrace();
             }
-
-            StorageReference filePath = storageReference.child("images/"+uri.getLastPathSegment());
-
-            progressDialog.setMessage("Uploading...");
-            progressDialog.show();
-
-            UploadTask uploadTask = filePath.putFile(uri);
-
-            uploadTask.addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    progressDialog.dismiss();
-                    Toast.makeText(CadastroActivity.this, "Upload Failed.", Toast.LENGTH_SHORT).show();
-                }
-            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    progressDialog.dismiss();
-                    Toast.makeText(CadastroActivity.this, "Upload Done.", Toast.LENGTH_SHORT).show();
-                }
-            });
         }
     }
-    //Fim de Escolhendo Imagem
 
     public void realizarProcessoCadastro(){
 
@@ -150,15 +121,13 @@ public class CadastroActivity extends AppCompatActivity {
         usuario.setTelefoneUsuario  (telefoneUsuario.getText().toString());
         usuario.setSenhaUsuario     (senhaUsuario.getText().toString());
 
-        firebaseAuth = FirebaseConnection.getFirebaseAuth();
-
         firebaseAuth.createUserWithEmailAndPassword(usuario.getEmailUsuario(), usuario.getSenhaUsuario())
                 .addOnCompleteListener(CadastroActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             CadastrarUsuario();
-                            AbrirTelaPrincipal();
+                            FazerUploadFoto();
 
                         }else{
                             StringBuilder erroExcecao = new StringBuilder("Erro: ");
@@ -193,8 +162,44 @@ public class CadastroActivity extends AppCompatActivity {
 
         Preferencias preferencias = new Preferencias(getApplicationContext());
         preferencias.salvarDados(identificadorUsuario, usuario.getNomeUsuario(), null);
+    }
 
-        Toast.makeText(CadastroActivity.this, "Sucesso ao cadastrar usuário.", Toast.LENGTH_SHORT).show();
+    private void FazerUploadFoto(){
+
+        circleImageView.setDrawingCacheEnabled(true);
+        circleImageView.buildDrawingCache();
+        Bitmap bitmap = circleImageView.getDrawingCache();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        circleImageView.setDrawingCacheEnabled(false);
+        byte[] data = baos.toByteArray();
+
+        Preferencias preferencias = new Preferencias(CadastroActivity.this);
+        StorageReference filePath = storageReference.child("images/"+preferencias.getIdentificador());
+
+        progressDialog.setMessage("Uploading...");
+        progressDialog.show();
+
+        UploadTask uploadTask = filePath.putBytes(data);
+
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                progressDialog.dismiss();
+                Toast.makeText(CadastroActivity.this, "Upload Failed.", Toast.LENGTH_LONG).show();
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                progressDialog.dismiss();
+                Toast.makeText(CadastroActivity.this, "Upload Done.", Toast.LENGTH_LONG).show();
+
+                usuario.setUrlPhotoUser(taskSnapshot.getDownloadUrl().toString());
+                usuario.salvar();
+
+                AbrirTelaPrincipal();
+            }
+        });
     }
 
     private void AbrirTelaPrincipal(){
