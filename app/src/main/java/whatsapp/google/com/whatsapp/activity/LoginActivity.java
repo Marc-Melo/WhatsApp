@@ -89,23 +89,21 @@ public class LoginActivity extends AppCompatActivity {
                                             .child("usuarios")
                                             .child(identificadorUsuarioLogado);
 
-                                    salvarPreferencias();
-
-                                    valueEventListener = new ValueEventListener() {
+                                    firebaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(DataSnapshot dataSnapshot) {
 
+                                            usuario = dataSnapshot.getValue(Usuario.class);
+
+                                            salvarPreferencias();
+                                            abrirTelaPrincipal();
                                         }
 
                                         @Override
                                         public void onCancelled(DatabaseError databaseError) {
 
                                         }
-                                    };
-
-                                    firebaseReference.addListenerForSingleValueEvent(valueEventListener);
-
-                                    abrirTelaPrincipal();
+                                    });
                                 }
                                 else{
                                     StringBuilder erroExcecao = new StringBuilder("Erro: ");

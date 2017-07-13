@@ -161,7 +161,7 @@ public class CadastroActivity extends AppCompatActivity {
         usuario.salvar();
 
         Preferencias preferencias = new Preferencias(getApplicationContext());
-        preferencias.salvarDados(identificadorUsuario, usuario.getNomeUsuario(), null);
+        preferencias.salvarDados(identificadorUsuario, usuario.getNomeUsuario(), true);
     }
 
     private void FazerUploadFoto(){
