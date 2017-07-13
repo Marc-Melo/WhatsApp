@@ -73,6 +73,25 @@ public class ContatosFragment extends Fragment {
         String identificadorUsuarioLogado = preferencias.getIdentificador();
         databaseReference = FirebaseConnection.getFirebaseReference().child("contatos").child(identificadorUsuarioLogado);
 
+        databaseReference.addValueEventListener(valueEventListenerContatos = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                contatos.clear();
+
+                for(DataSnapshot dados: dataSnapshot.getChildren()){
+                    Contato contato = dados.getValue(Contato.class);
+                    contatos.add(contato);
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        /*
         valueEventListenerContatos = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -90,7 +109,7 @@ public class ContatosFragment extends Fragment {
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        };
+        }; */
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

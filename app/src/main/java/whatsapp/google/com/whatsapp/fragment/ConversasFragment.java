@@ -78,10 +78,9 @@ public class ConversasFragment extends Fragment {
         String identificadorUsuarioLogado = preferencias.getIdentificador();
         databaseReference = FirebaseConnection.getFirebaseReference().child("conversas").child(identificadorUsuarioLogado);
 
-        valueEventListenerConversas = new ValueEventListener() {
+        databaseReference.addValueEventListener(valueEventListenerConversas = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
                 conversas.clear();
 
                 for(DataSnapshot dados: dataSnapshot.getChildren()){
@@ -95,7 +94,7 @@ public class ConversasFragment extends Fragment {
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        };
+        });
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
