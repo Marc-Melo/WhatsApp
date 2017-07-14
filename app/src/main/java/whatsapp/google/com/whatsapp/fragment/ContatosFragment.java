@@ -45,14 +45,14 @@ public class ContatosFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        databaseReference.addValueEventListener(valueEventListenerContatos);
+        //databaseReference.addValueEventListener(valueEventListenerContatos);
     }
 
     @Override
     public void onStop() {
         super.onStop();
 
-        databaseReference.removeEventListener(valueEventListenerContatos);
+        //databaseReference.removeEventListener(valueEventListenerContatos);
     }
 
     @Override

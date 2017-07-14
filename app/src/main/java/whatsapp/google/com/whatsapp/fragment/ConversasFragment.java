@@ -48,14 +48,14 @@ public class ConversasFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        databaseReference.addValueEventListener(valueEventListenerConversas);
+        //databaseReference.addValueEventListener(valueEventListenerConversas);
     }
 
     @Override
     public void onStop() {
         super.onStop();
 
-        databaseReference.removeEventListener(valueEventListenerConversas);
+        //databaseReference.removeEventListener(valueEventListenerConversas);
     }
 
 
