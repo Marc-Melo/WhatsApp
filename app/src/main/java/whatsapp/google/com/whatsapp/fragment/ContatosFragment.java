@@ -91,26 +91,6 @@ public class ContatosFragment extends Fragment {
             }
         });
 
-        /*
-        valueEventListenerContatos = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                contatos.clear();
-
-                for(DataSnapshot dados: dataSnapshot.getChildren()){
-                    Contato contato = dados.getValue(Contato.class);
-                    contatos.add(contato);
-                }
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        }; */
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
