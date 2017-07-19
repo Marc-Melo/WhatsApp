@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -73,9 +74,39 @@ public class ContatosFragment extends Fragment {
         String identificadorUsuarioLogado = preferencias.getIdentificador();
         databaseReference = FirebaseConnection.getFirebaseReference().child("contatos").child(identificadorUsuarioLogado);
 
+        databaseReference.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                contatos.add(dataSnapshot.getValue(Contato.class));
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
         databaseReference.addValueEventListener(valueEventListenerContatos = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
+                /*
                 contatos.clear();
 
                 for(DataSnapshot dados: dataSnapshot.getChildren()){
@@ -83,6 +114,7 @@ public class ContatosFragment extends Fragment {
                     contatos.add(contato);
                 }
                 adapter.notifyDataSetChanged();
+                */
             }
 
             @Override
