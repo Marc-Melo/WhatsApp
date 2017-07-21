@@ -9,6 +9,7 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -51,6 +52,7 @@ public class CadastroActivity extends AppCompatActivity {
     private TextView senhaUsuario;
     private Usuario usuario;
     private Button botaoCadastrar;
+    private String nome, telefone, email, senha;
 
     private FirebaseAuth firebaseAuth;
 
@@ -113,13 +115,58 @@ public class CadastroActivity extends AppCompatActivity {
         }
     }
 
+    private void inicialzar(){
+
+        nome = nomeUsuario.getText().toString().trim();
+        email = emailUsuario.getText().toString().trim();
+        telefone = telefoneUsuario.getText().toString().trim();
+        senha = senhaUsuario.getText().toString().trim();
+    }
+
+    public boolean validarCampos(){
+        boolean retorno = true;
+
+        if(nome.isEmpty() || nome.length() > 40){
+            nomeUsuario.setError("Por favor, entre com um nome válido.");
+            retorno = false;
+        }
+
+        if(email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            emailUsuario.setError("Por favor, entre com um e-mail válido.");
+            retorno = false;
+        }
+
+        if(senha.isEmpty()){
+            senhaUsuario.setError("Por favor, entre com uma senha válida.");
+            retorno = false;
+        }
+
+        if(telefone.isEmpty()){
+            telefoneUsuario.setError("Por favor, entre com um telefone válido.");
+            retorno = false;
+        }
+
+        return retorno;
+    }
+
+
     public void realizarProcessoCadastro(){
 
+        inicialzar();
+        if(!validarCampos()){
+            Toast.makeText(this, "Falha no Cadastro! Favor corrigir os campos.", Toast.LENGTH_LONG).show();
+        }
+        else{
+            processarCadastro();
+        }
+    }
+
+    private void processarCadastro(){
         usuario = new Usuario();
-        usuario.setNomeUsuario      (nomeUsuario.getText().toString());
-        usuario.setEmailUsuario     (emailUsuario.getText().toString());
-        usuario.setTelefoneUsuario  (telefoneUsuario.getText().toString());
-        usuario.setSenhaUsuario     (senhaUsuario.getText().toString());
+        usuario.setNomeUsuario      (nome);
+        usuario.setEmailUsuario     (email);
+        usuario.setTelefoneUsuario  (telefone);
+        usuario.setSenhaUsuario     (senha);
 
         firebaseAuth.createUserWithEmailAndPassword(usuario.getEmailUsuario(), usuario.getSenhaUsuario())
                 .addOnCompleteListener(CadastroActivity.this, new OnCompleteListener<AuthResult>() {
@@ -135,21 +182,17 @@ public class CadastroActivity extends AppCompatActivity {
                             try{
                                 throw task.getException();
                             }
-                            catch (FirebaseAuthWeakPasswordException e){
-                                erroExcecao.append("A senha precisa ser mais forte!");
-                            }
-                            catch (FirebaseAuthInvalidCredentialsException e){
-                                erroExcecao.append("E-mail inserido é inválido. Digite um novo e-mail.");
-                            }
                             catch (FirebaseAuthUserCollisionException e){
-                                erroExcecao.append("Esse e-mail já está cadastrado.");
+                                emailUsuario.setError("Esse email já está cadastrado.");
                             }
                             catch (Exception e){
-                                erroExcecao.append("Falha ao cadastrar usuário.");
+                                if(e.getMessage().contains("WEAK_PASSWORD")){
+                                    senhaUsuario.setError("Por favor, insira uma senha mais forte.");
+                                }else{
+                                    Toast.makeText(CadastroActivity.this, "Falha ao cadastrar usuário.", Toast.LENGTH_SHORT).show();
+                                }
                                 e.printStackTrace();
                             }
-
-                            Toast.makeText(CadastroActivity.this, erroExcecao, Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
