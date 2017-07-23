@@ -1,6 +1,5 @@
 package whatsapp.google.com.whatsapp.activity;
 
-import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -12,27 +11,25 @@ import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.rtoshiro.util.format.SimpleMaskFormatter;
+import com.github.rtoshiro.util.format.text.MaskTextWatcher;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -72,6 +69,10 @@ public class CadastroActivity extends AppCompatActivity {
         telefoneUsuario = (TextView) findViewById(R.id.telefone_user_id);
         senhaUsuario = (TextView) findViewById(R.id.senha_user_id);
         botaoCadastrar = (Button) findViewById(R.id.botao_cadastrar_usuario_id);
+
+        SimpleMaskFormatter smf = new SimpleMaskFormatter("(NN) NNNNN-NNNN");
+        MaskTextWatcher maskTelefone = new MaskTextWatcher(telefoneUsuario, smf);
+        telefoneUsuario.addTextChangedListener(maskTelefone);
 
         firebaseAuth = FirebaseConnection.getFirebaseAuth();
         firebaseStorage = firebaseStorage.getInstance();
@@ -115,7 +116,7 @@ public class CadastroActivity extends AppCompatActivity {
         }
     }
 
-    private void inicialzar(){
+    private void inicializar(){
 
         nome = nomeUsuario.getText().toString().trim();
         email = emailUsuario.getText().toString().trim();
@@ -152,13 +153,17 @@ public class CadastroActivity extends AppCompatActivity {
 
     public void realizarProcessoCadastro(){
 
-        inicialzar();
+        inicializar();
         if(!validarCampos()){
-            Toast.makeText(this, "Falha no Cadastro! Favor corrigir os campos.", Toast.LENGTH_LONG).show();
+            mensagemFalhaCadastro();
         }
         else{
             processarCadastro();
         }
+    }
+
+    private void mensagemFalhaCadastro(){
+        Toast.makeText(this, "Falha no Cadastro! Favor corrigir os campos.", Toast.LENGTH_LONG).show();
     }
 
     private void processarCadastro(){
@@ -182,15 +187,16 @@ public class CadastroActivity extends AppCompatActivity {
                             try{
                                 throw task.getException();
                             }
+                            catch (FirebaseAuthWeakPasswordException e){
+                                senhaUsuario.setError("Sua senha deve conter pelo menos 6 caracteres.");
+                                mensagemFalhaCadastro();
+                            }
                             catch (FirebaseAuthUserCollisionException e){
                                 emailUsuario.setError("Esse email já está cadastrado.");
+                                mensagemFalhaCadastro();
                             }
                             catch (Exception e){
-                                if(e.getMessage().contains("WEAK_PASSWORD")){
-                                    senhaUsuario.setError("Por favor, insira uma senha mais forte.");
-                                }else{
-                                    Toast.makeText(CadastroActivity.this, "Falha ao cadastrar usuário.", Toast.LENGTH_SHORT).show();
-                                }
+                                Toast.makeText(CadastroActivity.this, "Falha ao cadastrar usuário.", Toast.LENGTH_SHORT).show();
                                 e.printStackTrace();
                             }
                         }
