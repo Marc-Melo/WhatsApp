@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 
 import whatsapp.google.com.whatsapp.R;
@@ -32,16 +33,19 @@ public class ContatoLinkedAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
+
         return _contatos.size();
     }
 
     @Override
     public LinkedHashMap<String, Contato> getItem(int position) {
+
         return _contatos.get(position);
     }
 
     @Override
     public long getItemId(int position) {
+
         return 0;
     }
 
@@ -58,9 +62,10 @@ public class ContatoLinkedAdapter extends BaseAdapter {
             TextView emailContato = (TextView) view.findViewById(R.id.tv_email_contato);
             final ImageView fotoContato = (ImageView) view.findViewById(R.id.civ_foto_contato);
 
+            for(LinkedHashMap<String, Contato> contatoHash : _contatos){
+                String key = contatoHash.toString();
 
-
-
+            }
         }
 
         return null;

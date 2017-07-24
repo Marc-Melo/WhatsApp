@@ -18,10 +18,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 import whatsapp.google.com.whatsapp.R;
 import whatsapp.google.com.whatsapp.activity.ConversaActivity;
 import whatsapp.google.com.whatsapp.adapter.ContatoAdaptar;
+import whatsapp.google.com.whatsapp.adapter.ContatoLinkedAdapter;
 import whatsapp.google.com.whatsapp.config.FirebaseConnection;
 import whatsapp.google.com.whatsapp.model.Contato;
 import whatsapp.google.com.whatsapp.util.Preferencias;
@@ -32,11 +34,16 @@ import whatsapp.google.com.whatsapp.util.Preferencias;
 public class ContatosFragment extends Fragment {
 
 
-    private ListView listView;
+    private ListView listView, listView2;
     private ArrayAdapter adapter;
     private ArrayList<Contato> contatos;
     private DatabaseReference databaseReference;
     private ValueEventListener valueEventListenerContatos;
+
+
+    private ArrayList<LinkedHashMap<String, Contato>> arrayListHash;
+    private LinkedHashMap<String, Contato> linkedHashMap;
+    private ContatoLinkedAdapter contatoLinkedAdapter;
 
     public ContatosFragment() {
         // Required empty public constructor
@@ -59,6 +66,10 @@ public class ContatosFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        /*
+
+         */
         contatos = new ArrayList<>();
 
         // Inflate the layout for this fragment
@@ -74,11 +85,49 @@ public class ContatosFragment extends Fragment {
         String identificadorUsuarioLogado = preferencias.getIdentificador();
         databaseReference = FirebaseConnection.getFirebaseReference().child("contatos").child(identificadorUsuarioLogado);
 
+
+        /*
+
+        //Trying LinkedHashMap
+        arrayListHash = new ArrayList<LinkedHashMap<String, Contato>>();
+        linkedHashMap = new LinkedHashMap<String, Contato>();
+
+        // Inflate the layout for this fragment
+        View view2 = inflater.inflate(R.layout.fragment_contatos, container, false);
+        listView2 = (ListView)view2.findViewById(R.id.lv_contatos);
+        contatoLinkedAdapter = new ContatoLinkedAdapter(getActivity(), arrayListHash);
+        listView2.setAdapter(contatoLinkedAdapter);
+
+        Preferencias preferencias = new Preferencias(getActivity());
+        String identificadorUsuarioLogado = preferencias.getIdentificador();
+        databaseReference = FirebaseConnection.getFirebaseReference().child("contatos").child(identificadorUsuarioLogado);
+
+
+        //Fim LinkedHashMap
+        */
+
         databaseReference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                /*
+
+                linkedHashMap.put(dataSnapshot.getValue(Contato.class).getIdentificadorUsuario(),
+                        dataSnapshot.getValue(Contato.class));
+                //arrayListHash.add(linkedHashMap);
+                contatoLinkedAdapter.notifyDataSetChanged();
+                */
+
+                /*
+                */
+                /*
+                Converter o Array num LinkedHashMap e trabalhar nele..
+                Depois converter novamente em ArrayList
+
+                Tentar isso -> List<String> valueList = new ArrayList<String>(map.values());
+                 */
                 contatos.add(dataSnapshot.getValue(Contato.class));
                 adapter.notifyDataSetChanged();
+
             }
 
             @Override
@@ -123,6 +172,7 @@ public class ContatosFragment extends Fragment {
             }
         });
 
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -137,7 +187,9 @@ public class ContatosFragment extends Fragment {
             }
         });
 
+
         return view;
+        //return view2;
     }
 
 }
