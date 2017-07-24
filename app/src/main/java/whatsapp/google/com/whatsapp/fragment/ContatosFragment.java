@@ -118,8 +118,6 @@ public class ContatosFragment extends Fragment {
                 */
 
                 /*
-                */
-                /*
                 Converter o Array num LinkedHashMap e trabalhar nele..
                 Depois converter novamente em ArrayList
 
