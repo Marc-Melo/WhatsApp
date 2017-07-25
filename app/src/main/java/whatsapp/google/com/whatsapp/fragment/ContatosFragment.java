@@ -71,6 +71,7 @@ public class ContatosFragment extends Fragment {
 
          */
         contatos = new ArrayList<>();
+        linkedHashMap = new LinkedHashMap<String, Contato>();
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_contatos, container, false);
@@ -124,12 +125,19 @@ public class ContatosFragment extends Fragment {
                 Tentar isso -> List<String> valueList = new ArrayList<String>(map.values());
                  */
                 contatos.add(dataSnapshot.getValue(Contato.class));
+                linkedHashMap.put(dataSnapshot.getValue(Contato.class).getIdentificadorUsuario(), dataSnapshot.getValue(Contato.class));
                 adapter.notifyDataSetChanged();
 
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                /*
+                if(linkedHashMap.get(dataSnapshot.getValue(Contato.class).getIdentificadorUsuario()) != null){
+
+                }
+                */
+
                 adapter.notifyDataSetChanged();
             }
 
