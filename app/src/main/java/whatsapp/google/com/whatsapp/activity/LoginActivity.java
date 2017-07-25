@@ -34,7 +34,7 @@ import whatsapp.google.com.whatsapp.util.Base64Custom;
 import whatsapp.google.com.whatsapp.util.Permissao;
 import whatsapp.google.com.whatsapp.util.Preferencias;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TextView novoCadastro;
     private TextView txtEmail;
@@ -71,15 +71,17 @@ public class LoginActivity extends AppCompatActivity {
 
         txtEmail = (TextView)findViewById(R.id.txt_email_id);
         txtSenha = (TextView)findViewById(R.id.txt_password_id);
-        botaoLogar  = (Button)findViewById(R.id.btn_logar_id);
 
-        botaoLogar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                realizarProcessoCadastro();
-            }
-        });
+        findViewById(R.id.btn_logar_id).setOnClickListener(this);
     }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.btn_logar_id) {
+            realizarProcessoCadastro();
+        }
+    }
+
 
     private void inicializar(){
         email = txtEmail.getText().toString().trim();
